@@ -22,8 +22,8 @@ android {
         applicationId "com.dagla.android"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 33
-        versionName "4.2.5"
+        versionCode 34
+        versionName "4.2.6"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 //    buildTypes {

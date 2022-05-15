@@ -48,8 +48,8 @@ public class GlobalFunctions {
 
     public static final double appVersion2 = 1.0;
 
-//    public static String baseURL = "http://160.153.250.65:83/";
-    public static String baseURL = "http://portal.dagla.com/";
+    public static String baseURL = "http://160.153.250.65:83/";
+//    public static String baseURL = "http://portal.dagla.com/";
     //public static String baseURL = "http://10.211.55.3/dagla/";
 
     public static String serviceURL = baseURL + "services/ajax_v1.aspx?app=ios&lang=en&ver="+ appVersion + "&cat=";
