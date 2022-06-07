@@ -114,36 +114,36 @@ public class SplashActivity extends AppCompatActivity {
                 })
                 .into(imageView);
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
-////                Intent mainIntent = new Intent(SplashActivity.this, LanguageSelectionActivity.class);
-//
-//                if (!GlobalFunctions.getPrefrences(SplashActivity.this, "intro").equals("1")) {
-//                    Intent mainIntent = new Intent(SplashActivity.this, IntroductionActivity.class);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+//                Intent mainIntent = new Intent(SplashActivity.this, MainActivity.class);
+//                Intent mainIntent = new Intent(SplashActivity.this, LanguageSelectionActivity.class);
+
+                if (!GlobalFunctions.getPrefrences(SplashActivity.this, "intro").equals("1")) {
+                    Intent mainIntent = new Intent(SplashActivity.this, IntroductionActivity.class);
+                    startActivity(mainIntent);
+                    finish();
+                }else {
+
+                    if (!GlobalFunctions.getPrefrences(SplashActivity.this, "user_id").equalsIgnoreCase("")) {
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        finish();
+
+                    }else {
+                        startActivity(new Intent(SplashActivity.this, StartingActivity.class));
+                        finish();
+
+                    }
+
+//                    Intent mainIntent = new Intent(SplashActivity.this, StartingActivity.class);
 //                    startActivity(mainIntent);
 //                    finish();
-//                }else {
-//
-//                    if (!GlobalFunctions.getPrefrences(SplashActivity.this, "user_id").equalsIgnoreCase("")) {
-//                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//                        finish();
-//
-//                    }else {
-//                        startActivity(new Intent(SplashActivity.this, StartingActivity.class));
-//                        finish();
-//
-//                    }
-//
-////                    Intent mainIntent = new Intent(SplashActivity.this, StartingActivity.class);
-////                    startActivity(mainIntent);
-////                    finish();
-//                }
-//            }
-//        }, 3000);
+                }
+            }
+        }, 3000);
 
-        forceUpdate();
+//        forceUpdate();
 
     }
 
