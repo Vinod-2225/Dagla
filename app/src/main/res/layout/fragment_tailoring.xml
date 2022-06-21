@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Please note that the service is currently unavailable"
+                android:text="@string/please_note_that_the_service_is_currently_unavailable"
                 android:textStyle="bold"
                 android:fontFamily="@font/avenir_next_medium"
                 android:textSize="16sp"

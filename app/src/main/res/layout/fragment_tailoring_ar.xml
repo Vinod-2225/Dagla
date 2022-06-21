@@ -45,7 +45,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="يرجى العلم بأن الخدمة غير متوفرة حاليا"
+                android:text="@string/please_note_that_the_service_is_currently_unavailable_ar"
                 android:textStyle="bold"
                 android:fontFamily="@font/ge_dinar_one_medium"
                 android:textSize="16sp"

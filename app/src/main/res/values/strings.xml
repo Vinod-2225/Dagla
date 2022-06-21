@@ -557,5 +557,7 @@
     <string name="quality_control_finishing_ar" translatable="false">فحص الجودة</string>
     <string name="delivered_ar" translatable="false">تم التوصيل</string>
     <string name="enter_invoice_number_ar" translatable="false">ادخل رقم الفاتورة</string>
+    <string name="please_note_that_the_service_is_currently_unavailable" translatable="false">Please note that the service is currently unavailable</string>
+    <string name="please_note_that_the_service_is_currently_unavailable_ar" translatable="false">يرجى العلم بأن الخدمة غير متوفرة حاليا</string>
 
 </resources>

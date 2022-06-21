@@ -74,9 +74,12 @@ public class TailoringFragment extends Fragment {
             }
 
 
-            btnHomeVisit = (Button) rootView.findViewById(R.id.btnHomeVisit);
-            btnOrderTracking = (Button) rootView.findViewById(R.id.btnOrderTracking);
+            btnHomeVisit = rootView.findViewById(R.id.btnHomeVisit);
+            btnOrderTracking = rootView.findViewById(R.id.btnOrderTracking);
 
+
+            btnHomeVisit.setVisibility(View.GONE);
+            btnOrderTracking.setVisibility(View.VISIBLE);
 
             btnHomeVisit.setOnClickListener(new View.OnClickListener() {
                 @Override
