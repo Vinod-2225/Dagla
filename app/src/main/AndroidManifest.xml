@@ -243,6 +243,18 @@
                 android:value=".activity.MainActivity" />
         </activity>
 
+        <activity
+            android:name=".activity.IntroductionActivity2"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
+        <activity
+            android:name=".activity.LandingActivity"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
 
     </application>
 

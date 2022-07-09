@@ -5,10 +5,10 @@
         android:icon="@drawable/tab_home_icon"
         android:title="الرئسيه" />
 
-    <item
-        android:id="@+id/navigation_brands"
-        android:icon="@drawable/tab_brands_icon"
-        android:title="ماركات" />
+<!--    <item-->
+<!--        android:id="@+id/navigation_brands"-->
+<!--        android:icon="@drawable/tab_brands_icon"-->
+<!--        android:title="ماركات" />-->
 
     <item
         android:id="@+id/navigation_categories"

@@ -59,9 +59,9 @@ public class TailoringFragment extends Fragment {
         //if it is DashboardFragment it should have R.layout.fragment_dashboard
 
         if(GlobalFunctions.getLang(getActivity()).equals("ar")){
-            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.tailoring_ar),false,false,false,true, false ,"0", false);
+            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.tailoring_ar),true,false,false,false, false ,"0", false);
         }else {
-            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.tailoring),false,false,false,true, false ,"0", false);
+            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.tailoring),true,false,false,false, false ,"0", false);
         }
 
 

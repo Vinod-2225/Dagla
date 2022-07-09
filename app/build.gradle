@@ -88,6 +88,8 @@ dependencies {
 
     implementation 'org.jsoup:jsoup:1.10.1'
 
+    implementation("com.tbuonomo:dotsindicator:4.3")
+
 }
 
 apply plugin: 'com.google.gms.google-services'

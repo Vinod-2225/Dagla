@@ -121,7 +121,8 @@ public class SplashActivity extends AppCompatActivity {
 //                Intent mainIntent = new Intent(SplashActivity.this, LanguageSelectionActivity.class);
 
                 if (!GlobalFunctions.getPrefrences(SplashActivity.this, "intro").equals("1")) {
-                    Intent mainIntent = new Intent(SplashActivity.this, IntroductionActivity.class);
+//                    Intent mainIntent = new Intent(SplashActivity.this, IntroductionActivity.class);
+                    Intent mainIntent = new Intent(SplashActivity.this, IntroductionActivity2.class);
                     startActivity(mainIntent);
                     finish();
                 }else {

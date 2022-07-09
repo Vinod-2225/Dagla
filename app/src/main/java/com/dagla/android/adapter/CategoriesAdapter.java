@@ -1,9 +1,11 @@
 package com.dagla.android.adapter;
 
 import android.app.Activity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,49 +15,30 @@ import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
  * Created by sys on 21-Jan-19.
  */
 
-public class CategoriesAdapter extends BaseAdapter {
+public class CategoriesAdapter extends ArrayAdapter<String> {
 
     private final Activity context;
-    private final ArrayList<String> arrNames;
-    private final ArrayList<Integer> arrImages;
-    private final int width;
+    private final ArrayList<String> names;
 
 
     static class ViewHolder {
-        public ImageView categoryImg;
-        public TextView categoryName;
-
-        public RelativeLayout itemLayout;
+        public TextView subCategoryName;
     }
 
-    public CategoriesAdapter(Activity context, ArrayList<String> arrNames, ArrayList<Integer> arrImages, int width) {
-//        super(context, R.layout.layout_categories_item, arrNames);
+    public CategoriesAdapter(Activity context, ArrayList<String> names) {
+        super(context, R.layout.layout_sub_categories_item, names);
         this.context = context;
-        this.arrNames = arrNames;
-        this.arrImages = arrImages;
-        this.width = width;
+        this.names = names;
 
-    }
-
-    @Override
-    public int getCount() {
-        return arrNames.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return position;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
     }
 
     @Override
@@ -66,70 +49,46 @@ public class CategoriesAdapter extends BaseAdapter {
         if (rowView == null) {
             //
             LayoutInflater inflater = context.getLayoutInflater();
+
             if(GlobalFunctions.getLang(context).equals("ar")){
-                rowView = inflater.inflate(R.layout.layout_categories_item_ar, null);
+                rowView = inflater.inflate(R.layout.layout_sub_categories_item_ar, null);
             }else {
-                rowView = inflater.inflate(R.layout.layout_categories_item, null);
+                rowView = inflater.inflate(R.layout.layout_sub_categories_item, null);
             }
 
             //
-            ViewHolder viewHolder = new ViewHolder();
+            SubCategoriesAdapter.ViewHolder viewHolder = new SubCategoriesAdapter.ViewHolder();
             //
-            viewHolder.categoryImg = rowView.findViewById(R.id.categoryImg);
-            viewHolder.categoryName = rowView.findViewById(R.id.categoryName);
-
-            viewHolder.itemLayout = rowView.findViewById(R.id.itemLayout);
-
+            viewHolder.subCategoryName = rowView.findViewById(R.id.subCategoryName);
+            //
             rowView.setTag(viewHolder);
         }
 
-        int w = GlobalFunctions.convertDpToPx(context, 375);
-        int h = GlobalFunctions.convertDpToPx(context, 150);
 
-        int nw = width;
-        int nh = h;
 
-        if (nw != w) {
+        final SubCategoriesAdapter.ViewHolder holder = (SubCategoriesAdapter.ViewHolder)rowView.getTag();
 
-            float ratio = (float)nw / (float)w;
+//        holder.subCategoryName.setTypeface(custom_fontnormal);
 
-            nh = (int)(h * ratio);
+        String s = names.get(position);
+
+        try {
+
+            final JSONObject obj = new JSONObject(s);
+
+
+            if (GlobalFunctions.getLang(context).equalsIgnoreCase("ar")) {
+                holder.subCategoryName.setText(obj.getString("banner_name_ar"));
+            }else {
+                holder.subCategoryName.setText(obj.getString("banner_name"));
+            }
+
+
+        } catch (JSONException e) {
+
+            Log.d("CategoriesAdapter", "JSONException:" + e.getMessage());
+
         }
-
-        final ViewHolder holder = (ViewHolder)rowView.getTag();
-
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)holder.categoryImg.getLayoutParams();
-
-        params.height = nh;
-
-        holder.categoryImg.setLayoutParams(params);
-
-        holder.itemLayout.setLayoutParams(params);
-
-
-        holder.categoryName.setText(arrNames.get(position).toString());
-
-        Picasso.with(context).
-                load(arrImages.get(position))
-
-                .into(holder.categoryImg);
-
-
-//        String s = arrNames.get(position);
-//
-//        try {
-//
-//            final JSONObject obj = new JSONObject(s);
-//
-//            holder.categoryImg.setImageDrawable(null);
-//
-//            ImageLoader.getInstance().displayImage(obj.getString("image"), holder.categoryImg);
-//
-//        } catch (JSONException e) {
-//
-//            Log.d("CategoriesAdapter", "JSONException:" + e.getMessage());
-//
-//        }
 
         return rowView;
     }

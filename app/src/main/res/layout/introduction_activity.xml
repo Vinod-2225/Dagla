@@ -45,6 +45,21 @@
             app:tabIndicatorHeight="0dp"
             android:layoutDirection="ltr"/>
 
+
+        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+            android:id="@+id/dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:dotsColor="#cccccc"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="12dp"
+            app:dotsSpacing="4dp"
+            app:dotsWidthFactor="2.5"
+            app:selectedDotColor="#222222"
+            app:progressMode="false"
+            android:layout_gravity="center_horizontal"/>
+
+
         <!--<com.viewpagerindicator.CirclePageIndicator-->
             <!--android:id="@+id/todaysDealsImageIndicator"-->
             <!--android:layout_width="wrap_content"-->

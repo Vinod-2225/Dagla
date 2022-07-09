@@ -36,8 +36,10 @@ import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.SizesAdapter;
 import com.dagla.android.activity.MainActivity;
+import com.dagla.android.adapter.ProductColorsAdapter;
 import com.dagla.android.adapter.ImagesAdapter;
 import com.dagla.android.adapter.ItemsAdapter;
+import com.dagla.android.adapter.ProductSizesAdapter;
 import com.dagla.android.adapter.RelatedColorsAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.loopj.android.http.AsyncHttpClient;
@@ -113,6 +115,17 @@ public class ProductDescriptionFragment extends Fragment {
 
     RelatedColorsAdapter relatedColorsAdapter;
 
+
+
+    LinearLayout colorLayout,sizeLayout;
+    RecyclerView color_recyclerView,size_recyclerView;
+
+    ArrayList<String> colorsArrList;
+    ArrayList<String> sizesArrList;
+    ProductColorsAdapter productColorsAdapter;
+    ProductSizesAdapter productSizesAdapter;
+
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //just change the fragment_dashboard
@@ -136,6 +149,16 @@ public class ProductDescriptionFragment extends Fragment {
         }
 
 
+
+
+        colorLayout = rootView.findViewById(R.id.colorLayout);
+        sizeLayout = rootView.findViewById(R.id.sizeLayout);
+
+        color_recyclerView = rootView.findViewById(R.id.color_recyclerView);
+        size_recyclerView = rootView.findViewById(R.id.size_recyclerView);
+
+        colorsArrList = new ArrayList<String>();
+        sizesArrList = new ArrayList<String>();
         productNameArrList1 = new ArrayList<String>();
         productIdArrList1 = new ArrayList<String>();
         productPriceArrList1 = new ArrayList<String>();
@@ -509,6 +532,9 @@ public class ProductDescriptionFragment extends Fragment {
             arrayList3.clear();
             arrayList4.clear();
 
+            colorsArrList.clear();
+            sizesArrList.clear();
+
             AsyncHttpClient client = new AsyncHttpClient();
 
             RequestParams params = new RequestParams();
@@ -631,7 +657,7 @@ public class ProductDescriptionFragment extends Fragment {
 
                             if (arr.length() > 0) {
 
-                                pnlSize.setVisibility(View.VISIBLE);
+                                pnlSize.setVisibility(View.GONE);
                                 lblSizeGuide.setVisibility(View.GONE);
 
                                 JSONObject objSize = arr.getJSONObject(0);
@@ -641,7 +667,7 @@ public class ProductDescriptionFragment extends Fragment {
                                 for (int i=0; i<arr.length(); i++) {
 
                                     arrSizes.add(arr.getJSONObject(i).toString());
-
+                                    sizesArrList.add(arr.getJSONObject(i).getString("size_name"));
                                 }
                             }
 
@@ -734,11 +760,53 @@ public class ProductDescriptionFragment extends Fragment {
                                 pnlRelatedColors.setVisibility(View.GONE);
                             }
 
+
+
+
+
                             for (int j = 0; j < arr3.length(); j++) {
+                                colorsArrList.add(arr3.getJSONObject(j).getString("color_code"));
                                 productIdArrList1.add(arr3.getJSONObject(j).getString("product_id"));
                                 productNameArrList1.add(arr3.getJSONObject(j).getString("name"));
                                 productPriceArrList1.add(arr3.getJSONObject(j).getString("price"));
                                 picArrList1.add(arr3.getJSONObject(j).getString("pic"));
+                            }
+
+                            color_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            productColorsAdapter = new ProductColorsAdapter(requireActivity(), colorsArrList);
+                            color_recyclerView.setAdapter(productColorsAdapter);
+
+                            productColorsAdapter.setOnClickListener(new ProductColorsAdapter.ClickListener() {
+                                @Override
+                                public void OnItemClick(int position, View v) {
+
+                                    productColorsAdapter.Selected(position);
+                                }
+                            });
+
+                            size_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+                            productSizesAdapter = new ProductSizesAdapter(requireActivity(), sizesArrList);
+                            size_recyclerView.setAdapter(productSizesAdapter);
+
+                            productSizesAdapter.setOnClickListener(new ProductSizesAdapter.ClickListener() {
+                                @Override
+                                public void OnItemClick(int position, View v) {
+
+                                    productSizesAdapter.Selected(position);
+                                }
+                            });
+
+
+                            if(colorsArrList.size()>0){
+                                colorLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                colorLayout.setVisibility(View.GONE);
+                            }
+
+                            if(sizesArrList.size()>0){
+                                sizeLayout.setVisibility(View.VISIBLE);
+                            }else {
+                                sizeLayout.setVisibility(View.GONE);
                             }
 
                             if(productNameArrList1.size()>=1  || productNameArrList1.size()>=2){

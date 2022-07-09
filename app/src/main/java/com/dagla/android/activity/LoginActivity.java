@@ -388,8 +388,8 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.dismiss();
 
                 act.finish();
-                startActivity(new Intent(act, MainActivity.class));
-
+//                startActivity(new Intent(act, MainActivity.class));
+                startActivity(new Intent(act, LandingActivity.class));
             }
         });
 

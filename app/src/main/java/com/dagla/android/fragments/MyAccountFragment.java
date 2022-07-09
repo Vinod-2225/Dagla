@@ -39,6 +39,7 @@ import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.activity.CircleTransform;
 import com.dagla.android.activity.IntroductionActivity;
+import com.dagla.android.activity.IntroductionActivity2;
 import com.dagla.android.activity.MainActivity;
 import com.dagla.android.activity.SplashActivity;
 import com.loopj.android.http.AsyncHttpClient;
@@ -738,7 +739,8 @@ public class MyAccountFragment extends Fragment {
 
                 getActivity().finish();
 //                            GlobalFunctions.showToastSuccess(act, getString(R.string.your_login_was_successful));
-                startActivity(new Intent(getActivity(), IntroductionActivity.class));
+//                startActivity(new Intent(getActivity(), IntroductionActivity.class));
+                startActivity(new Intent(getActivity(), IntroductionActivity2.class));
 
             }
         });

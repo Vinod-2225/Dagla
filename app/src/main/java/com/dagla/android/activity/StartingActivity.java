@@ -124,7 +124,9 @@ public class StartingActivity extends AppCompatActivity implements View.OnClickL
             case R.id.lblGuest:
 
                 act.finish();
-                startActivity(new Intent(act, MainActivity.class));
+//                startActivity(new Intent(act, MainActivity.class));
+
+                startActivity(new Intent(act, LandingActivity.class));
 
                 break;
 

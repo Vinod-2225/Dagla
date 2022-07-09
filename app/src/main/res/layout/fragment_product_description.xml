@@ -46,8 +46,8 @@
                     android:id="@+id/imgOverlay"
                     android:layout_width="match_parent"
                     android:layout_height="320dp"
-                    android:scaleType="fitCenter"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true"
+                    android:scaleType="fitCenter" />
 
             </RelativeLayout>
 
@@ -245,6 +245,72 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="2dp"
                     android:visibility="gone"/>
+
+                <LinearLayout
+                    android:id="@+id/colorLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="@string/color"
+                        android:textSize="16sp"
+                        android:textColor="#222222"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/avenir_next_medium"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/color_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/transparent"
+                        android:padding="0dp"/>
+
+                </LinearLayout>
+
+
+
+                <LinearLayout
+                    android:id="@+id/sizeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="@string/size"
+                        android:textSize="16sp"
+                        android:textColor="#222222"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/avenir_next_medium"/>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/size_recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/transparent"
+                        android:padding="0dp"/>
+
+                </LinearLayout>
+
+
 
                 <Button
                     android:id="@+id/btnAddToCart"

@@ -35,6 +35,7 @@ import com.dagla.android.fragments.BrandsFragmentNew2;
 import com.dagla.android.fragments.CartFragmentNew;
 import com.dagla.android.fragments.CategoriesFragment;
 import com.dagla.android.fragments.HomeFragment;
+import com.dagla.android.fragments.HomeFragmentNew;
 import com.dagla.android.fragments.HomeVisitServiceFragment;
 import com.dagla.android.fragments.MyAccountFragment;
 import com.dagla.android.fragments.ProductsFragment;
@@ -58,6 +59,7 @@ import org.json.JSONTokener;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
+import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -415,9 +417,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.navigation_home:
                                 changeFragment(new HomeFragment());
                                 return true;
-                            case R.id.navigation_brands:
-                                changeFragment(new BrandsFragmentNew2());
-                                return true;
+//                            case R.id.navigation_brands:
+//                                changeFragment(new BrandsFragmentNew2());
+//                                return true;
                             case R.id.navigation_categories:
                                 changeFragment(new CategoriesFragment());
                                 return true;
@@ -451,12 +453,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 break;
 
-                            case R.id.navigation_brands:
-                                if(imgDaglaLogo.getVisibility()!=View.VISIBLE){
-                                    changeFragment(new BrandsFragmentNew2());
-                                }
-
-                                break;
+//                            case R.id.navigation_brands:
+//                                if(imgDaglaLogo.getVisibility()!=View.VISIBLE){
+//                                    changeFragment(new BrandsFragmentNew2());
+//                                }
+//
+//                                break;
 
                             case R.id.navigation_categories:
                                 if(imgDaglaLogo.getVisibility()!=View.VISIBLE){
@@ -828,7 +830,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
                 }
             });
-            changeFragment(new HomeFragment());
+
+            if (getIntent().hasExtra("Title")) {
+                Bundle b = getIntent().getExtras();
+
+                assert b != null;
+                if(Objects.equals(b.getString("Title"), getString(R.string.shop))){
+                    bottomNavigation.setSelectedItemId(R.id.navigation_home);
+                    changeFragment(new HomeFragmentNew());
+                }else {
+                    bottomNavigation.setSelectedItemId(R.id.navigation_visit_us);
+                    changeFragment(new TailoringFragment());
+                }
+
+            }
+
+//            changeFragment(new HomeFragment());
         } else {
 
             if (GlobalFunctions.getLang(act).equals("ar")) {

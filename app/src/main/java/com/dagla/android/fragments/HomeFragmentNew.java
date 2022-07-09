@@ -3,23 +3,49 @@ package com.dagla.android.fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.activity.MainActivity;
 import com.dagla.android.adapter.BestSellerAdapter;
 import com.dagla.android.adapter.EditorialChoiceAdapter;
+import com.dagla.android.adapter.HomeCateAdapter;
+import com.dagla.android.adapter.HomeCateProductsAdapter;
+import com.dagla.android.adapter.ProductColorsAdapter;
 import com.dagla.android.adapter.WhatsNewAdapter;
+import com.dagla.android.parser.HomeCateDetails;
+import com.dagla.android.parser.HomeCateProductsDetails;
 import com.google.android.material.tabs.TabLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -32,6 +58,7 @@ import org.json.JSONTokener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -39,19 +66,28 @@ public class HomeFragmentNew extends Fragment {
 
     Activity act;
 
-    ViewPager vPagerImages1,vPagerImages2,vPagerImages3;
-    TabLayout tabDots1,tabDots2,tabDots3;
+    ViewPager vPagerImages;
+    TabLayout tabDots;
     View rootView;
-    Context context;
     Bundle savedInstanceState;
 
-    WhatsNewAdapter whatsNewAdapter;
-    BestSellerAdapter bestSellerAdapter;
-    EditorialChoiceAdapter editorialChoiceAdapter;
+
 
     Dialog dlgLoading = null;
 
-    Typeface custom_fontbold, custom_fontnormal;
+    HomeCateDetails homeCateDetails;
+    ArrayList<HomeCateDetails> homeCateDetailsArrayList = new ArrayList<HomeCateDetails>();
+    HomeCateProductsDetails homeCateProductsDetails;
+    ArrayList<HomeCateProductsDetails> homeCateProductsDetailsArrayList = new ArrayList<HomeCateProductsDetails>();
+
+    RecyclerView cate_recyclerView,products_recyclerView;
+    HomeCateAdapter homeCateAdapter;
+    HomeCateProductsAdapter homeCateProductsAdapter;
+
+    ArrayList<String> arrItems;
+
+    DisplayMetrics displaymetrics;
+    GridLayoutManager layoutManager;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,161 +96,90 @@ public class HomeFragmentNew extends Fragment {
         //like if the class is HomeFragment it should have R.layout.home_fragment
         //if it is DashboardFragment it should have R.layout.fragment_dashboard
 
-        custom_fontbold = Typeface.createFromAsset(getActivity().getAssets(), "fonts/avenir-next-bold.ttf");
-        custom_fontnormal = Typeface.createFromAsset(getActivity().getAssets(), "fonts/avenir-next-regular.ttf");
+        if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.title_home_ar),true,true,true,false, false ,"0", false);
+        }else {
+            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.title_home),true,true,true,false, false ,"0", false);
+        }
 
-        ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.title_home),true,true,true,false, false ,"0", false);
+        ((MainActivity) getActivity()).setCartCount();
+
+        GlobalFunctions.initImageLoader(getActivity());
+
         if (rootView == null) {
-            rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
-            ArrayList<HashMap<String, String>> arrayList1 = new ArrayList<HashMap<String, String>>();
-            ArrayList<HashMap<String, Integer>> arrayList2 = new ArrayList<HashMap<String, Integer>>();
+            if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+                rootView = inflater.inflate(R.layout.fragment_home_new, container, false);
+            }else {
+                rootView = inflater.inflate(R.layout.fragment_home_new, container, false);
+            }
 
-            ArrayList<HashMap<String, String>> arrayList3 = new ArrayList<HashMap<String, String>>();
-            ArrayList<HashMap<String, Integer>> arrayList4 = new ArrayList<HashMap<String, Integer>>();
+            displaymetrics = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
 
-            ArrayList<HashMap<String, String>> arrayList5 = new ArrayList<HashMap<String, String>>();
-            ArrayList<HashMap<String, Integer>> arrayList6 = new ArrayList<HashMap<String, Integer>>();
+            vPagerImages = rootView.findViewById(R.id.vPagerImages);
+            tabDots = rootView.findViewById(R.id.tabDots);
 
-            ArrayList arrNames = new ArrayList<String>();
+            cate_recyclerView = rootView.findViewById(R.id.cate_recyclerView);
 
-            arrNames.add("T Shirt");
-            arrNames.add("Shoes");
-            arrNames.add("Purse");
-            arrNames.add("Leather Jacket");
-            arrNames.add("Jacket");
-            arrNames.add("Belt");
+            cate_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+            homeCateAdapter = new HomeCateAdapter(requireActivity(), homeCateDetailsArrayList);
+            cate_recyclerView.setAdapter(homeCateAdapter);
 
-            HashMap<String, String> map1 = new HashMap<String, String>();
-            map1.put("Key1",arrNames.get(0).toString());
-            map1.put("Key2",arrNames.get(1).toString());
-            arrayList1.add(map1);
-
-            HashMap<String, String> map2 = new HashMap<String, String>();
-            map2.put("Key1",arrNames.get(2).toString());
-            map2.put("Key2",arrNames.get(3).toString());
-            arrayList1.add(map2);
-
-            HashMap<String, String> map3 = new HashMap<String, String>();
-            map3.put("Key1",arrNames.get(4).toString());
-            map3.put("Key2",arrNames.get(5).toString());
-            arrayList1.add(map3);
+            homeCateAdapter.setOnClickListener(new HomeCateAdapter.ClickListener() {
+                @Override
+                public void OnItemClick(int position, View v) {
 
 
-            HashMap<String, Integer> imagesMap1 = new HashMap<String, Integer>();
-            imagesMap1.put("Key1",R.drawable.categories_1);
-            imagesMap1.put("Key2",R.drawable.categories_2);
-            arrayList2.add(imagesMap1);
+//                    homeCateProductsDetailsArrayList.clear();
+//                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
+//                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
+                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+                    homeCateAdapter.Selected(position);
 
-            HashMap<String, Integer> imagesMap2 = new HashMap<String, Integer>();
-            imagesMap2.put("Key1",R.drawable.categories_3);
-            imagesMap2.put("Key2",R.drawable.categories_4);
-            arrayList2.add(imagesMap2);
+                }
+            });
 
-            HashMap<String, Integer> imagesMap3 = new HashMap<String, Integer>();
-            imagesMap3.put("Key1",R.drawable.categories_5);
-            imagesMap3.put("Key2",R.drawable.categories_6);
-            arrayList2.add(imagesMap3);
+            products_recyclerView = rootView.findViewById(R.id.products_recyclerView);
 
-////////////////////////////
-            HashMap<String, String> bestHashMap1 = new HashMap<String, String>();
-            bestHashMap1.put("Key1",arrNames.get(2).toString());
-            bestHashMap1.put("Key2",arrNames.get(3).toString());
-            arrayList3.add(bestHashMap1);
+            products_recyclerView.setNestedScrollingEnabled(false);
+            //
+            layoutManager = new GridLayoutManager(getActivity(), 2);
+            //
+            products_recyclerView.setLayoutManager(layoutManager);
 
-            HashMap<String, String> bestHashMap2 = new HashMap<String, String>();
-            bestHashMap2.put("Key1",arrNames.get(4).toString());
-            bestHashMap2.put("Key2",arrNames.get(5).toString());
-            arrayList3.add(bestHashMap2);
-
-            HashMap<String, String> bestHashMap3 = new HashMap<String, String>();
-            bestHashMap3.put("Key1",arrNames.get(0).toString());
-            bestHashMap3.put("Key2",arrNames.get(1).toString());
-            arrayList3.add(bestHashMap3);
-
-
-            HashMap<String, Integer> bestImageHashMap1 = new HashMap<String, Integer>();
-            bestImageHashMap1.put("Key1",R.drawable.categories_3);
-            bestImageHashMap1.put("Key2",R.drawable.categories_4);
-            arrayList4.add(bestImageHashMap1);
-
-            HashMap<String, Integer> bestImageHashMap2 = new HashMap<String, Integer>();
-            bestImageHashMap2.put("Key1",R.drawable.categories_5);
-            bestImageHashMap2.put("Key2",R.drawable.categories_6);
-            arrayList4.add(bestImageHashMap2);
-
-            HashMap<String, Integer> bestImageHashMap3 = new HashMap<String, Integer>();
-            bestImageHashMap3.put("Key1",R.drawable.categories_1);
-            bestImageHashMap3.put("Key2",R.drawable.categories_2);
-            arrayList4.add(imagesMap3);
-
-/////////////////////////////////////////////////////////
-
-            HashMap<String, String> editHashMap1 = new HashMap<String, String>();
-            editHashMap1.put("Key1",arrNames.get(4).toString());
-            editHashMap1.put("Key2",arrNames.get(5).toString());
-            arrayList5.add(editHashMap1);
-
-            HashMap<String, String> editHashMap2 = new HashMap<String, String>();
-            editHashMap2.put("Key1",arrNames.get(0).toString());
-            editHashMap2.put("Key2",arrNames.get(1).toString());
-            arrayList5.add(editHashMap2);
-
-            HashMap<String, String> editHashMap3 = new HashMap<String, String>();
-            editHashMap3.put("Key1",arrNames.get(2).toString());
-            editHashMap3.put("Key2",arrNames.get(3).toString());
-            arrayList5.add(editHashMap3);
-
-
-            HashMap<String, Integer> editImageHashMap1 = new HashMap<String, Integer>();
-            editImageHashMap1.put("Key1",R.drawable.categories_5);
-            editImageHashMap1.put("Key2",R.drawable.categories_6);
-            arrayList6.add(editImageHashMap1);
-
-            HashMap<String, Integer> editImageHashMap2 = new HashMap<String, Integer>();
-            editImageHashMap2.put("Key1",R.drawable.categories_1);
-            editImageHashMap2.put("Key2",R.drawable.categories_2);
-            arrayList6.add(editImageHashMap2);
-
-            HashMap<String, Integer> editImageHashMap3 = new HashMap<String, Integer>();
-            editImageHashMap3.put("Key1",R.drawable.categories_3);
-            editImageHashMap3.put("Key2",R.drawable.categories_4);
-            arrayList6.add(editImageHashMap3);
-
-
-            vPagerImages1 = rootView.findViewById(R.id.vPagerImages1);
-            vPagerImages2 = rootView.findViewById(R.id.vPagerImages2);
-            vPagerImages3 = rootView.findViewById(R.id.vPagerImages3);
-
-            tabDots1 = rootView.findViewById(R.id.tabDots1);
-            tabDots2 = rootView.findViewById(R.id.tabDots2);
-            tabDots3 = rootView.findViewById(R.id.tabDots3);
-
-
-//            whatsNewAdapter = new WhatsNewAdapter(getActivity(), arrayList1, arrayList2);
-//            vPagerImages1.setAdapter(whatsNewAdapter);
-//            tabDots1.setupWithViewPager(vPagerImages1, true);
-
-
-//            bestSellerAdapter = new BestSellerAdapter(getActivity(), arrayList3, arrayList4);
-//            vPagerImages2.setAdapter(bestSellerAdapter);
-//            tabDots2.setupWithViewPager(vPagerImages2, true);
+//            homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateProductsDetailsArrayList,displaymetrics.widthPixels);
+//            products_recyclerView.setAdapter(homeCateProductsAdapter);
 //
+//            homeCateProductsAdapter.setOnClickListener(new HomeCateProductsAdapter.ClickListener() {
+//                @Override
+//                public void OnItemClick(int position, View v) {
 //
-//            editorialChoiceAdapter = new EditorialChoiceAdapter(getActivity(), arrayList5, arrayList6);
-//            vPagerImages3.setAdapter(editorialChoiceAdapter);
-//            tabDots3.setupWithViewPager(vPagerImages3, true);
+//                    homeCateProductsAdapter.Selected(position);
+////                    homeCateProductsDetailsArrayList.clear();
+////                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
+////                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+//                }
+//            });
+
+            loadData();
+
 
         }
+
+
 
         return rootView;
 
     }
 
-
     private void loadData() {
 
-        if (GlobalFunctions.hasConnection(context)) {
+        if (GlobalFunctions.hasConnection(getActivity())) {
+
+            homeCateDetailsArrayList.clear();
+            homeCateProductsDetailsArrayList.clear();
 
             showLoading();
 
@@ -224,7 +189,12 @@ public class HomeFragmentNew extends Fragment {
 
             params.put("ran", GlobalFunctions.getRandom());
 
-            client.get(GlobalFunctions.serviceURL + "getCategoryData", params, new AsyncHttpResponseHandler() {
+            if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
+                params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+            }
+
+
+            client.get(GlobalFunctions.serviceURL + "getHomeBannerData", params, new AsyncHttpResponseHandler() {
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
@@ -235,8 +205,10 @@ public class HomeFragmentNew extends Fragment {
 
                     Log.d("onSuccess", response);
 
-                    JSONArray arr, arr1;
+                    JSONArray arr, arr1, arr2;
                     JSONObject obj, obj1, obj2;
+
+
 
                     try {
 
@@ -246,12 +218,80 @@ public class HomeFragmentNew extends Fragment {
 
                             arr = obj.getJSONArray("Banners");
 
-//                            arrList = new ArrayList<String>();
-//
-//                            for (int i = 0; i < arr.length(); i++) {
-//
-//                                arrList.add(arr.getJSONObject(i).toString());
-//                            }
+
+                            for (int i = 0; i < arr.length(); i++) {
+
+
+                                String main_banner_Id = arr.getJSONObject(i).getString("banner_id");
+                                String home_banner_cat_id = arr.getJSONObject(i).getString("home_banner_cat_id");
+                                String home_banner_cat_name_en = arr.getJSONObject(i).getString("home_banner_cat_name");
+                                String home_banner_cat_name_ar = arr.getJSONObject(i).getString("home_banner_cat_name_ar");
+                                String banner_cat_id = arr.getJSONObject(i).getString("banner_cat_id");
+                                String banner_sub_cat_id = arr.getJSONObject(i).getString("banner_sub_cat_id");
+                                String banner_product_id = arr.getJSONObject(i).getString("banner_product_id");
+                                String banner_brand_id = arr.getJSONObject(i).getString("banner_brand_id");
+                                String image = arr.getJSONObject(i).getString("image");
+
+
+
+                                arr1 = arr.getJSONObject(i).getJSONArray("Products");
+
+                                homeCateProductsDetailsArrayList = new ArrayList<HomeCateProductsDetails>();
+
+                                for (int j = 0; j < arr1.length(); j++) {
+
+                                    String banner_id = arr1.getJSONObject(j).getString("banner_id");
+                                    String product_id = arr1.getJSONObject(j).getString("product_id");
+                                    String name = arr1.getJSONObject(j).getString("name");
+                                    String brand_name = arr1.getJSONObject(j).getString("brand_name");
+                                    String price = arr1.getJSONObject(j).getString("price");
+                                    String old_price = arr1.getJSONObject(j).getString("old_price");
+
+                                    String pic = arr1.getJSONObject(j).getString("pic");
+
+
+                                    homeCateProductsDetails = new HomeCateProductsDetails(banner_id, product_id, name, brand_name, price, old_price, pic);
+
+                                    homeCateProductsDetailsArrayList.add(homeCateProductsDetails);
+
+                                }
+
+
+
+                                homeCateDetails = new HomeCateDetails(main_banner_Id,home_banner_cat_id,home_banner_cat_name_en,banner_cat_id,
+                                        banner_sub_cat_id,banner_product_id,banner_brand_id,image,homeCateProductsDetailsArrayList);
+                                homeCateDetailsArrayList.add(homeCateDetails);
+
+                                if(i==0){
+//                                    homeCateProductsDetailsArrayList.addAll(homeCateProductsDetailsArrayList);
+//                                    homeCateProductsAdapter.notifyDataSetChanged();
+
+                                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(i).getHomeCateProducts(),displaymetrics.widthPixels);
+                                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+
+                                    homeCateProductsAdapter.setOnClickListener(new HomeCateProductsAdapter.ClickListener() {
+                                        @Override
+                                        public void OnItemClick(int position, View v) {
+
+                                            homeCateProductsAdapter.Selected(position);
+//                    homeCateProductsDetailsArrayList.clear();
+//                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
+//                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+                                        }
+                                    });
+                                }
+                            }
+
+
+                            CustomImagePagerAdapter mAdapter = new CustomImagePagerAdapter(getActivity(), homeCateDetailsArrayList);
+                            vPagerImages.setAdapter(mAdapter);
+                            vPagerImages.setCurrentItem(0);
+                            tabDots.setupWithViewPager(vPagerImages, true);
+
+                            homeCateAdapter.notifyDataSetChanged();
+
+//                            homeCateProductsAdapter.notifyDataSetChanged();
+
 
 
                         } else {
@@ -259,6 +299,11 @@ public class HomeFragmentNew extends Fragment {
                             GlobalFunctions.showToastError(getActivity(), obj.getString("msg"));
 
                         }
+
+                        if(!GlobalFunctions.getPrefrences(getActivity(), "user_id").equalsIgnoreCase("")){
+//                            loadProfileData();
+                        }
+
 
                     } catch (JSONException e) {
 
@@ -294,9 +339,11 @@ public class HomeFragmentNew extends Fragment {
                 GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet));
             }
 
+
         }
 
     }
+
 
     private void showLoading() {
 
@@ -317,5 +364,85 @@ public class HomeFragmentNew extends Fragment {
 
     }
 
+
+
+    public class CustomImagePagerAdapter extends PagerAdapter {
+        private Context mContext;
+        LayoutInflater mLayoutInflater;
+        ArrayList<HomeCateDetails> homeCateDetailsArrayList1;
+
+        public CustomImagePagerAdapter(Context context, ArrayList<HomeCateDetails> homeCateDetailsArrayList1) {
+            mContext = context;
+            mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.homeCateDetailsArrayList1 = homeCateDetailsArrayList1;
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, final int position) {
+
+            View itemView = mLayoutInflater.inflate(R.layout.home_image_item,container,false);
+            ImageView adImg = (ImageView) itemView.findViewById(R.id.adImg);
+//            ImageView favoriteImg = (ImageView) itemView.findViewById(R.id.favoriteImg);
+
+//            adImg.getLayoutParams().width = (int) (General.get_device_width(mContext) / 1) - 50;
+//            adImg.getLayoutParams().height = (int) (General.get_device_width(mContext) / 2) - 80;
+
+//            Picasso.with(mContext).load(mResources[position]).into(adImg);
+
+            final ProgressBar progress1 = (ProgressBar) itemView.findViewById(R.id.progress);
+
+
+
+            Glide.with(mContext)
+                    .load(homeCateDetailsArrayList1.get(position).getImage())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+
+                            progress1.setVisibility(View.GONE);
+
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+
+                            progress1.setVisibility(View.GONE);
+
+                            return false;
+                        }
+
+
+                    })
+                    .into(adImg);
+
+
+            container.addView(itemView);
+
+
+
+
+
+            return itemView;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup collection, int position, Object view) {
+            collection.removeView((View) view);
+        }
+
+        @Override
+        public int getCount() {
+//        Log.v("mResources.length",""+mResources.length);
+            return homeCateDetailsArrayList1.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object object) {
+            return view == object;
+        }
+
+
+    }
 
 }

@@ -3,9 +3,44 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/below_shadow.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/bg_1.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/bg_2.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/bg_dots.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/btn_1_bg.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/btn_default.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/btn_exchanged.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/btn_skip_intro.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/cal_click_background.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/color_bg_1.xml" value="0.2135" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/dot_off.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/dot_on.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/drawable/intro_bg_dots.xml" value="0.196" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/activity_contact_us.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/activity_introduction.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/activity_landing.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/color_item_layout.xml" value="0.2921875" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/first.xml" value="0.20677083333333332" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_account.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_categories.xml" value="0.2921875" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_home.xml" value="0.17831813576494426" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_home_new.xml" value="0.20520833333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_product_description.xml" value="0.17255434782608695" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_tailoring.xml" value="0.17603850050658562" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_tailoring_ar.xml" value="0.17603850050658562" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/home_image_item.xml" value="0.28072916666666664" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/home_pager_layout.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/introduction_activity.xml" value="0.17255434782608695" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/introduction_item.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/introduction_pager_layout.xml" value="0.17255434782608695" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_categories_item.xml" value="0.17603850050658562" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_item.xml" value="0.18072916666666666" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/sample.xml" value="0.20677083333333332" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/size_item_layout.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/starting_activity.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.18802083333333333" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/menu/bottom_navigation_menu_ar.xml" value="0.17395833333333333" />
       </map>
     </option>
   </component>

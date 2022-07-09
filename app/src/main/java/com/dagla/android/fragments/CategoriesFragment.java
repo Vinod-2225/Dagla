@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.activity.MainActivity;
+import com.dagla.android.adapter.CategoriesAdapter;
 import com.dagla.android.adapter.CategoriesAdapterNew;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -194,8 +195,8 @@ public class CategoriesFragment extends Fragment {
 
 //                            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
 
-//                            arrAdapter = new CategoriesAdapterNew(getActivity(), arrList, dm.widthPixels);
-                            arrAdapter = new CategoriesAdapterNew(getActivity(), arrList, CategoriesFragment.this);
+//                            arrAdapter = new CategoriesAdapterNew(getActivity(), arrList, CategoriesFragment.this);
+                            arrAdapter = new CategoriesAdapter(getActivity(), arrList);
 
                             lv.setAdapter(arrAdapter);
 

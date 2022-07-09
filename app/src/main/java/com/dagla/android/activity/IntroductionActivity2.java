@@ -2,12 +2,14 @@ package com.dagla.android.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
@@ -16,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.adapter.IntroductionImagesAdapter;
+import com.dagla.android.adapter.IntroductionImagesAdapter2;
 import com.google.android.material.tabs.TabLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -31,15 +34,16 @@ import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
 
-public class IntroductionActivity extends AppCompatActivity {
+public class IntroductionActivity2 extends AppCompatActivity {
 
     Activity act;
 
     ViewPager vPagerImages;
-    TabLayout tabDots;
-    ImageView imgOverlay, imgPlus;
-//    Button btnSkipIntro;
+//    TabLayout tabDots;
+//    ImageView imgOverlay, imgPlus;
+    //    Button btnSkipIntro;
     DotsIndicator dots_indicator;
+    TextView lblTitle,lblSkip;
 
     PagerAdapter adapterImages;
 
@@ -56,44 +60,24 @@ public class IntroductionActivity extends AppCompatActivity {
         //
         GlobalFunctions.setLanguage(this);
 
-        if(GlobalFunctions.getLang(IntroductionActivity.this).equals("ar")){
-            setContentView(R.layout.introduction_activity_ar);
+        if(GlobalFunctions.getLang(IntroductionActivity2.this).equals("ar")){
+            setContentView(R.layout.activity_introduction);
         }else {
-            setContentView(R.layout.introduction_activity);
+            setContentView(R.layout.activity_introduction);
         }
 
-//        //
-//        ActionBar ab = getSupportActionBar();
-//        //
-//        ab.setDisplayHomeAsUpEnabled(true);
-//        ab.setDisplayShowHomeEnabled(false);
-//        //
-//        ab.setTitle(getString(R.string.login));
+
 
         act = this;
 
         vPagerImages = findViewById(R.id.vPagerImages);
-        tabDots = findViewById(R.id.tabDots);
-        imgOverlay = findViewById(R.id.imgOverlay);
+//        tabDots = findViewById(R.id.tabDots);
+//        imgOverlay = findViewById(R.id.imgOverlay);
         dots_indicator = findViewById(R.id.dots_indicator);
 
+        lblTitle = findViewById(R.id.lblTitle);
+        lblSkip = findViewById(R.id.lblSkip);
 
-
-//        btnSkipIntro.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                if (!GlobalFunctions.getPrefrences(IntroductionActivity.this, "user_id").equalsIgnoreCase("")) {
-////                    startActivity(new Intent(act, MainActivity.class));
-////                    finish();
-////                }else {
-//                    startActivity(new Intent(act, StartingActivity.class));
-//                    finish();
-////                }
-//
-//                GlobalFunctions.setPrefrences(IntroductionActivity.this, "intro", "1");
-//
-//            }
-//        });
 
         arrIntroId = new ArrayList<String>();
         arrImages = new ArrayList<Integer>();
@@ -118,27 +102,43 @@ public class IntroductionActivity extends AppCompatActivity {
 
         GlobalFunctions.initImageLoader(act);
 
-//        displaymetrics = new DisplayMetrics();
-//        act.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
-//        //
-//        float screenWidth = displaymetrics.widthPixels;
-//
-//        ViewGroup.LayoutParams params1 = vPagerImages.getLayoutParams();
-//        ViewGroup.LayoutParams params2 = imgOverlay.getLayoutParams();
-//        //
-//        params1.height = (int)screenWidth;
-//        params2.height = (int)screenWidth;
-//        //
-//        vPagerImages.setLayoutParams(params1);
-//        imgOverlay.setLayoutParams(params2);
-//
-//        vPagerImages.setLayoutParams(params1);
 
-//        adapterImages = new IntroductionImagesAdapter(act, arrImages, arrIntroTextEn, arrDescriptionEn);
-//
-//        vPagerImages.setAdapter(adapterImages);
-//
-//        tabDots.setupWithViewPager(vPagerImages, true);
+
+        vPagerImages.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                if(GlobalFunctions.getLang(IntroductionActivity2.this).equals("ar")){
+                    lblTitle.setText(arrIntroTextAr.get(position).toString());
+                }else {
+                    lblTitle.setText(arrIntroTextEn.get(position).toString());
+                }
+
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+        lblSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(IntroductionActivity2.this, StartingActivity.class));
+                finish();
+
+                GlobalFunctions.setPrefrences(IntroductionActivity2.this, "intro", "1");
+            }
+        });
+
 
 
         loadData();
@@ -226,15 +226,15 @@ public class IntroductionActivity extends AppCompatActivity {
                             }
 
                             if (GlobalFunctions.getLang(act).equals("ar")) {
-                                adapterImages = new IntroductionImagesAdapter(act, arrImages, arrIntroTextAr, arrDescriptionAr);
+                                adapterImages = new IntroductionImagesAdapter2(act, arrImages, arrIntroTextAr, arrDescriptionAr);
 //                                btnSkipIntro.setText(arrBtnTextAr.get(0).toString());
                             }else {
-                                adapterImages = new IntroductionImagesAdapter(act, arrImages, arrIntroTextEn, arrDescriptionEn);
+                                adapterImages = new IntroductionImagesAdapter2(act, arrImages, arrIntroTextEn, arrDescriptionEn);
 //                                btnSkipIntro.setText(arrBtnTextEn.get(0).toString());
                             }
 
                             vPagerImages.setAdapter(adapterImages);
-                            tabDots.setupWithViewPager(vPagerImages, true);
+//                            tabDots.setupWithViewPager(vPagerImages, true);
 //                            dots_indicator.setupWithViewPager(vPagerImages, true);
                             dots_indicator.setViewPager(vPagerImages);
 //                            if (GlobalFunctions.getLang(act).equalsIgnoreCase("ar")) {
@@ -321,8 +321,8 @@ public class IntroductionActivity extends AppCompatActivity {
         }
     }
 
-    public void hideOverlay() {
-
-        imgOverlay.setVisibility(View.GONE);
-    }
+//    public void hideOverlay() {
+//
+//        imgOverlay.setVisibility(View.GONE);
+//    }
 }
