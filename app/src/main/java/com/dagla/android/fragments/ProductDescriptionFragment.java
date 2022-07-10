@@ -31,7 +31,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.dagla.android.BuildConfig;
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.SizesAdapter;
@@ -1403,7 +1402,7 @@ public class ProductDescriptionFragment extends Fragment {
 
 
     public void successDialog(String msg, String button1, String button2) {
-        int versionCode = BuildConfig.VERSION_CODE;
+//        int versionCode = BuildConfig.VERSION_CODE;
 //        Countly.sharedInstance().recordEvent("Added To Cart", 1);
 //        Countly.sharedInstance().recordEvent("Added To Cart", 1);
 

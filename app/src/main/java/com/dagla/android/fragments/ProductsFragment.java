@@ -5,16 +5,22 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.BounceInterpolator;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
@@ -24,7 +30,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.activity.MainActivity;
+import com.dagla.android.adapter.FilterColorsAdapter;
+import com.dagla.android.adapter.FilterSizesAdapter;
+import com.dagla.android.adapter.HomeCateProductsAdapter;
 import com.dagla.android.adapter.ItemsAdapter;
+import com.dagla.android.parser.FilterColorsDetails;
+import com.dagla.android.parser.FilterSizesDetails;
+import com.dagla.android.parser.HomeCateDetails;
+import com.dagla.android.parser.HomeCateProductsDetails;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -69,6 +82,13 @@ public class ProductsFragment extends Fragment {
 
     DisplayMetrics displaymetrics;
 
+    FilterSizesDetails filterSizesDetails;
+    ArrayList<FilterSizesDetails> filterSizesDetailsArrayList = new ArrayList<FilterSizesDetails>();
+    FilterColorsDetails filterColorsDetails;
+    ArrayList<FilterColorsDetails> filterColorsDetailsArrayList = new ArrayList<FilterColorsDetails>();
+
+    FilterSizesAdapter filterSizesAdapter;
+    FilterColorsAdapter filterColorsAdapter;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -394,7 +414,7 @@ public class ProductsFragment extends Fragment {
                     }
 
                     isLoading = false;
-
+                    sizesData();
                 }
 
                 @Override
@@ -529,7 +549,305 @@ public class ProductsFragment extends Fragment {
 
     }
 
+    private void sizesData() {
+
+        if (GlobalFunctions.hasConnection(getActivity())) {
+
+            showLoading();
+//            https://portal.dagla.com/services/ajax_v2.aspx?app=ios&lang=en&ver=1.0&cat=getSizes&ran=71&subcatid=LyCV/+D1ogs=&catid=2ucHke6VLD8=
+            AsyncHttpClient client = new AsyncHttpClient();
+
+            RequestParams params = new RequestParams();
+
+//            params.put("brandId", brandId);
+//            params.put("home_banner_id", homeBannerId);
+            params.put("catid", categoryId);
+            params.put("subcatid", subCategoryId);
+//            params.put("search", search);
+//            params.put("sortBy", sortBy);
+//            params.put("sortDirection", sortDirection);
+//            params.put("pageNum", pageNum);
+            params.put("ran", GlobalFunctions.getRandom());
+
+//            if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
+//                params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+//            }
+
+            client.get(GlobalFunctions.serviceURL + "getSizes" , params, new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+
+                    filterSizesDetailsArrayList.clear();
+
+                    hideLoading();
+
+                    String response = new String(bytes);
+
+                    Log.d("onSuccess", response);
+
+                    JSONArray arr;
+                    JSONObject obj;
+
+                    try {
+
+                        obj = ((JSONObject) new JSONTokener(response).nextValue()).getJSONObject("result");
+
+                        if (obj.getString("status").equalsIgnoreCase("1")) {
+
+                            arr = obj.getJSONArray("data");
+
+                            for (int i = 0; i < arr.length(); i++) {
+
+                                String size_id = arr.getJSONObject(i).getString("size_id");
+                                String size_name = arr.getJSONObject(i).getString("size_name");
 
 
+
+                                filterSizesDetails = new FilterSizesDetails(size_id, size_name);
+
+                                filterSizesDetailsArrayList.add(filterSizesDetails);
+
+                            }
+
+                        } else {
+
+                            GlobalFunctions.showToastError(getActivity(), obj.getString("msg"));
+
+                        }
+                        //
+                    } catch (JSONException e) {
+
+                        if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                        }else {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                        }
+
+                    }
+
+                    colorsData();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    hideLoading();
+
+                    if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                    }else {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                    }
+
+                }
+            });
+
+        } else {
+
+            if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet_ar));
+            }else {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet));
+            }
+
+        }
+
+    }
+
+    private void colorsData() {
+
+        if (GlobalFunctions.hasConnection(getActivity())) {
+
+            showLoading();
+//            https://portal.dagla.com/services/ajax_v2.aspx?app=ios&lang=en&ver=1.0&cat=getSizes&ran=71&subcatid=LyCV/+D1ogs=&catid=2ucHke6VLD8=
+            AsyncHttpClient client = new AsyncHttpClient();
+
+            RequestParams params = new RequestParams();
+
+//            params.put("brandId", brandId);
+//            params.put("home_banner_id", homeBannerId);
+            params.put("catid", categoryId);
+            params.put("subcatid", subCategoryId);
+//            params.put("search", search);
+//            params.put("sortBy", sortBy);
+//            params.put("sortDirection", sortDirection);
+//            params.put("pageNum", pageNum);
+            params.put("ran", GlobalFunctions.getRandom());
+
+//            if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
+//                params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+//            }
+
+            client.get(GlobalFunctions.serviceURL + "getColors" , params, new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+
+
+                    filterColorsDetailsArrayList.clear();
+
+                    hideLoading();
+
+                    String response = new String(bytes);
+
+                    Log.d("onSuccess", response);
+
+                    JSONArray arr;
+                    JSONObject obj;
+
+                    try {
+
+                        obj = ((JSONObject) new JSONTokener(response).nextValue()).getJSONObject("result");
+
+                        if (obj.getString("status").equalsIgnoreCase("1")) {
+
+                            arr = obj.getJSONArray("data");
+
+                            for (int i = 0; i < arr.length(); i++) {
+
+                                String color_id = arr.getJSONObject(i).getString("color_id");
+                                String color_code = arr.getJSONObject(i).getString("color_code");
+                                String color_name = arr.getJSONObject(i).getString("color_name");
+
+
+
+                                filterColorsDetails = new FilterColorsDetails(color_id, color_code,color_name);
+
+                                filterColorsDetailsArrayList.add(filterColorsDetails);
+                            }
+
+                        } else {
+
+                            GlobalFunctions.showToastError(getActivity(), obj.getString("msg"));
+
+                        }
+                        //
+                    } catch (JSONException e) {
+
+                        if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                        }else {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                        }
+
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    hideLoading();
+
+                    if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                    }else {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                    }
+
+                }
+            });
+
+        } else {
+
+            if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet_ar));
+            }else {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet));
+            }
+
+        }
+
+    }
+
+
+    public void filterDialog() {
+
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.filter_layout);
+        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+        layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.gravity = Gravity.BOTTOM;
+//        layoutParams.x = 0;   //x position
+//        layoutParams.y = 30;
+        dialog.getWindow().setAttributes(layoutParams);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+        Button btnDone = (Button) dialog.findViewById(R.id.btnDone);
+        Button btnSize = (Button) dialog.findViewById(R.id.btnSize);
+        Button btnColor = (Button) dialog.findViewById(R.id.btnColor);
+
+        LinearLayout sizesLayout = (LinearLayout) dialog.findViewById(R.id.sizesLayout);
+        LinearLayout colorsLayout = (LinearLayout) dialog.findViewById(R.id.colorsLayout);
+
+
+        RecyclerView sizes_recyclerView = dialog.findViewById(R.id.sizes_recyclerView);
+
+//        sizes_recyclerView.setNestedScrollingEnabled(false);
+        //
+        layoutManager = new GridLayoutManager(getActivity(), 1);
+        //
+        sizes_recyclerView.setLayoutManager(layoutManager);
+
+        filterSizesAdapter = new FilterSizesAdapter(requireActivity(), filterSizesDetailsArrayList);
+        sizes_recyclerView.setAdapter(filterSizesAdapter);
+
+        filterSizesAdapter.setOnClickListener((position, v) -> filterSizesAdapter.Selected(position));
+
+
+        RecyclerView colors_recyclerView = dialog.findViewById(R.id.colors_recyclerView);
+
+//        sizes_recyclerView.setNestedScrollingEnabled(false);
+        //
+        layoutManager = new GridLayoutManager(getActivity(), 1);
+        //
+        colors_recyclerView.setLayoutManager(layoutManager);
+
+        filterColorsAdapter = new FilterColorsAdapter(requireActivity(), filterColorsDetailsArrayList);
+        colors_recyclerView.setAdapter(filterColorsAdapter);
+
+        filterColorsAdapter.setOnClickListener((position, v) -> filterColorsAdapter.Selected(position));
+
+
+        btnCancel.setOnClickListener(view -> dialog.dismiss());
+
+        btnDone.setOnClickListener(view -> dialog.dismiss());
+
+        sizesLayout.setVisibility(View.VISIBLE);
+        colorsLayout.setVisibility(View.GONE);
+
+        btnSize.setBackgroundResource(R.drawable.customer_btn_2_bg);
+        btnColor.setBackgroundResource(R.drawable.customer_btn_1_bg);
+
+        btnSize.setOnClickListener(view -> {
+
+            btnSize.setBackgroundResource(R.drawable.customer_btn_2_bg);
+            btnColor.setBackgroundResource(R.drawable.customer_btn_1_bg);
+
+            sizesLayout.setVisibility(View.VISIBLE);
+            colorsLayout.setVisibility(View.GONE);
+
+        });
+
+        btnColor.setOnClickListener(view -> {
+
+            btnSize.setBackgroundResource(R.drawable.customer_btn_1_bg);
+            btnColor.setBackgroundResource(R.drawable.customer_btn_2_bg);
+
+            sizesLayout.setVisibility(View.GONE);
+            colorsLayout.setVisibility(View.VISIBLE);
+
+        });
+
+        dialog.show();
+
+    }
 
 }

@@ -263,8 +263,6 @@ public class HomeFragmentNew extends Fragment {
                                 homeCateDetailsArrayList.add(homeCateDetails);
 
                                 if(i==0){
-//                                    homeCateProductsDetailsArrayList.addAll(homeCateProductsDetailsArrayList);
-//                                    homeCateProductsAdapter.notifyDataSetChanged();
 
                                     homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(i).getHomeCateProducts(),displaymetrics.widthPixels);
                                     products_recyclerView.setAdapter(homeCateProductsAdapter);
@@ -274,9 +272,7 @@ public class HomeFragmentNew extends Fragment {
                                         public void OnItemClick(int position, View v) {
 
                                             homeCateProductsAdapter.Selected(position);
-//                    homeCateProductsDetailsArrayList.clear();
-//                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
-//                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+
                                         }
                                     });
                                 }

@@ -116,6 +116,15 @@
             </RelativeLayout>
 
             <Button
+                android:id="@+id/imgFilter"
+                android:layout_centerVertical="true"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:background="@drawable/filter_icon"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="0dp"/>
+
+            <Button
                 android:id="@+id/imgSort"
                 android:layout_centerVertical="true"
                 android:layout_width="22dp"

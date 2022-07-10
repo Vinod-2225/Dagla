@@ -79,7 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     EditText txtSearch;
 
-    Button imgSearch,imgCart,imgBack,imgBack2,imgSort,btnDone;
+    Button imgSearch,imgCart,imgBack,imgBack2,imgSort,btnDone,imgFilter;
     ImageView imgDaglaLogo;
 
     RelativeLayout layoutWishList,layoutCart,titleLayout,searchLayout,pnlDim;
@@ -415,7 +415,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if(pnlDim.getVisibility()==View.GONE){
                         switch (item.getItemId()) {
                             case R.id.navigation_home:
-                                changeFragment(new HomeFragment());
+//                                changeFragment(new HomeFragment());
+                                changeFragment(new HomeFragmentNew());
                                 return true;
 //                            case R.id.navigation_brands:
 //                                changeFragment(new BrandsFragmentNew2());
@@ -448,7 +449,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             case R.id.navigation_home:
 
                                 if(imgDaglaLogo.getVisibility()!=View.VISIBLE){
-                                    changeFragment(new HomeFragment());
+//                                    changeFragment(new HomeFragment());
+                                    changeFragment(new HomeFragmentNew());
                                 }
 
                                 break;
@@ -502,6 +504,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgBack = (Button) findViewById(R.id.imgBack);
         imgSort = (Button) findViewById(R.id.imgSort);
         btnDone = (Button) findViewById(R.id.btnDone);
+        imgFilter = (Button) findViewById(R.id.imgFilter);
 
         lblWishlistCount = (TextView) findViewById(R.id.lblWishlistCount);
         lblCartCount = (TextView) findViewById(R.id.lblCartCount);
@@ -533,6 +536,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         pnlDim.setOnClickListener(this);
         imgBack2.setOnClickListener(this);
         btnDone.setOnClickListener(this);
+        imgFilter.setOnClickListener(this);
     }
 
     @Override
@@ -619,7 +623,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     fragment2.productsSorting();
                 }
 
+                break;
 
+            case R.id.imgFilter:
+
+                if(screenPosition.equals("1")){
+                    ProductsFragment fragment2 = (ProductsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    fragment2.filterDialog();
+                }
 
                 break;
 
@@ -664,8 +675,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(sortBtn){
             imgSort.setVisibility(View.VISIBLE);
+            imgFilter.setVisibility(View.VISIBLE);
         }else {
             imgSort.setVisibility(View.GONE);
+            imgFilter.setVisibility(View.GONE);
         }
 
         if(doneBtn){

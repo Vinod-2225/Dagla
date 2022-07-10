@@ -1,6 +1,5 @@
 package com.dagla.android.parser;
 
-import java.util.ArrayList;
 
 public class HomeCateProductsDetails {
 

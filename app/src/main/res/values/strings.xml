@@ -566,5 +566,6 @@
 
     <string name="shop" translatable="false">Shop</string>
     <string name="skip" translatable="false">Skip</string>
+    <string name="filter">Filter</string>
 
 </resources>
