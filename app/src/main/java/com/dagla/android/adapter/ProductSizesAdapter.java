@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 
 import java.util.ArrayList;
@@ -79,7 +80,12 @@ public class ProductSizesAdapter extends RecyclerView.Adapter<ProductSizesAdapte
         View v;
 
 //        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_1_item_layout, parent, false);
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.size_item_layout, parent, false);
+        if(GlobalFunctions.getLang(mContext).equals("ar")){
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.size_item_layout_ar, parent, false);
+        }else {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.size_item_layout, parent, false);
+        }
+
 
         // set the view's size, margins, paddings and layout parameters
 

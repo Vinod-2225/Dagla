@@ -844,18 +844,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             });
 
-            if (getIntent().hasExtra("Title")) {
-                Bundle b = getIntent().getExtras();
+//            if (getIntent().hasExtra("Title")) {
+//                Bundle b = getIntent().getExtras();
+//
+//                assert b != null;
+//                if(Objects.equals(b.getString("Title"), getString(R.string.shop))){
+//                    bottomNavigation.setSelectedItemId(R.id.navigation_home);
+//                    changeFragment(new HomeFragmentNew());
+//                }else {
+//                    bottomNavigation.setSelectedItemId(R.id.navigation_visit_us);
+//                    changeFragment(new TailoringFragment());
+//                }
+//
+//            }
 
-                assert b != null;
-                if(Objects.equals(b.getString("Title"), getString(R.string.shop))){
-                    bottomNavigation.setSelectedItemId(R.id.navigation_home);
-                    changeFragment(new HomeFragmentNew());
-                }else {
-                    bottomNavigation.setSelectedItemId(R.id.navigation_visit_us);
-                    changeFragment(new TailoringFragment());
-                }
-
+            if (GlobalFunctions.getPrefrences(MainActivity.this, "landing").equals("Shop")) {
+                bottomNavigation.setSelectedItemId(R.id.navigation_home);
+                changeFragment(new HomeFragmentNew());
+            }else {
+                bottomNavigation.setSelectedItemId(R.id.navigation_visit_us);
+                changeFragment(new TailoringFragment());
             }
 
 //            changeFragment(new HomeFragment());

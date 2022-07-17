@@ -17,6 +17,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
+import com.dagla.android.fragments.CartFragmentNew;
 import com.dagla.android.fragments.ProductDescriptionFragment;
 import com.dagla.android.fragments.ProductDescriptionFromHomeFragment;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -28,7 +29,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class RelatedColorsAdapter extends PagerAdapter {
+public class RelatedItemsAdapter extends PagerAdapter {
 
     private LayoutInflater inflater;
     private Context context;
@@ -37,13 +38,14 @@ public class RelatedColorsAdapter extends PagerAdapter {
     ArrayList<HashMap<String, String>> arrayList2;
     ArrayList<HashMap<String, String>> arrayList3;
     ArrayList<HashMap<String, String>> arrayList4;
-
+    ProductDescriptionFragment fragment1;
+    ProductDescriptionFromHomeFragment fragment2;
     FragmentActivity activity;
     FragmentTransaction ft;
+    String from;
 
-
-    public RelatedColorsAdapter(Context context, ArrayList<HashMap<String, String>> arrayList1, ArrayList<HashMap<String, String>> arrayList2, ArrayList<HashMap<String, String>> arrayList3,
-                           ArrayList<HashMap<String, String>> arrayList4) {
+    public RelatedItemsAdapter(Context context, ArrayList<HashMap<String, String>> arrayList1, ArrayList<HashMap<String, String>> arrayList2, ArrayList<HashMap<String, String>> arrayList3,
+                                ArrayList<HashMap<String, String>> arrayList4, ProductDescriptionFromHomeFragment fragment2,String from) {
 
         this.context = context;
 
@@ -51,6 +53,27 @@ public class RelatedColorsAdapter extends PagerAdapter {
         this.arrayList2 = arrayList2;
         this.arrayList3 = arrayList3;
         this.arrayList4 = arrayList4;
+
+        this.from=from;
+        this.fragment2 = fragment2;
+
+        inflater = LayoutInflater.from(context);
+
+    }
+
+    public RelatedItemsAdapter(Context context, ArrayList<HashMap<String, String>> arrayList1, ArrayList<HashMap<String, String>> arrayList2, ArrayList<HashMap<String, String>> arrayList3,
+                               ArrayList<HashMap<String, String>> arrayList4, ProductDescriptionFragment fragment1,String from) {
+
+        this.context = context;
+
+        this.arrayList1 = arrayList1;
+        this.arrayList2 = arrayList2;
+        this.arrayList3 = arrayList3;
+        this.arrayList4 = arrayList4;
+
+        this.from=from;
+        this.fragment1 = fragment1;
+
         inflater = LayoutInflater.from(context);
 
     }
@@ -71,22 +94,22 @@ public class RelatedColorsAdapter extends PagerAdapter {
 
         View rowView;
 
-        if(GlobalFunctions.getLang(context).equals("ar")){
+        if (GlobalFunctions.getLang(context).equals("ar")) {
             rowView = inflater.inflate(R.layout.home_pager_layout_ar, view, false);
-        }else {
+        } else {
             rowView = inflater.inflate(R.layout.home_pager_layout, view, false);
         }
 
         String lang = GlobalFunctions.getLang(context);
 
-        ImageView img1 = (ImageView)rowView.findViewById(R.id.img1);
-        ImageView img2 = (ImageView)rowView.findViewById(R.id.img2);
+        ImageView img1 = (ImageView) rowView.findViewById(R.id.img1);
+        ImageView img2 = (ImageView) rowView.findViewById(R.id.img2);
 
-        TextView lblTitle1 = (TextView)rowView.findViewById(R.id.lblTitle1);
-        TextView lblTitle2 = (TextView)rowView.findViewById(R.id.lblTitle2);
+        TextView lblTitle1 = (TextView) rowView.findViewById(R.id.lblTitle1);
+        TextView lblTitle2 = (TextView) rowView.findViewById(R.id.lblTitle2);
 
-        TextView lblPrice1 = (TextView)rowView.findViewById(R.id.lblPrice1);
-        TextView lblPrice2 = (TextView)rowView.findViewById(R.id.lblPrice2);
+        TextView lblPrice1 = (TextView) rowView.findViewById(R.id.lblPrice1);
+        TextView lblPrice2 = (TextView) rowView.findViewById(R.id.lblPrice2);
 
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.drawable.bg_img)
@@ -113,11 +136,10 @@ public class RelatedColorsAdapter extends PagerAdapter {
             lblPrice1.setText(arrayList4.get(position).get("Key1").toString());
             lblPrice2.setText(arrayList4.get(position).get("Key2").toString());
 
-        }else {
+        } else {
             lblPrice1.setText(arrayList4.get(position).get("Key1").toString());
             lblPrice2.setText(arrayList4.get(position).get("Key2").toString());
         }
-
 
 
 //        Picasso.with(context).
@@ -135,16 +157,19 @@ public class RelatedColorsAdapter extends PagerAdapter {
             public void onLoadingStarted(String imageUri, View view) {
 
             }
+
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 
             }
+
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
 //                ((IntroductionActivity)context).hideOverlay();
 
             }
+
             @Override
             public void onLoadingCancelled(String imageUri, View view) {
 
@@ -161,16 +186,19 @@ public class RelatedColorsAdapter extends PagerAdapter {
             public void onLoadingStarted(String imageUri, View view) {
 
             }
+
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
 
             }
+
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
 //                ((IntroductionActivity)context).hideOverlay();
 
             }
+
             @Override
             public void onLoadingCancelled(String imageUri, View view) {
 
@@ -182,12 +210,12 @@ public class RelatedColorsAdapter extends PagerAdapter {
             }
         });
 
-        LinearLayout linear1 = (LinearLayout)rowView.findViewById(R.id.linear1);
-        LinearLayout linear2 = (LinearLayout)rowView.findViewById(R.id.linear2);
+        LinearLayout linear1 = (LinearLayout) rowView.findViewById(R.id.linear1);
+        LinearLayout linear2 = (LinearLayout) rowView.findViewById(R.id.linear2);
 
-        if(arrayList2.get(position).get("Key2").equals("")){
+        if (arrayList2.get(position).get("Key2").equals("")) {
             linear2.setVisibility(View.INVISIBLE);
-        }else {
+        } else {
             linear2.setVisibility(View.VISIBLE);
         }
 
@@ -196,19 +224,39 @@ public class RelatedColorsAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
 
-                ProductDescriptionFragment fragment = new ProductDescriptionFragment();
-                Bundle b = new Bundle();
-                b.putString("product_id", arrayList3.get(position).get("Key1").toString());
-                b.putString("title", arrayList1.get(position).get("Key2").toString());
-                fragment.setArguments(b);
+//                if(from.equals("Category")){
+//                    ProductDescriptionFromHomeFragment fragment = new ProductDescriptionFromHomeFragment();
+//                    Bundle b = new Bundle();
+//                    b.putString("product_id", arrayList3.get(position).get("Key1"));
+//                    b.putString("title", arrayList1.get(position).get("Key2"));
+//                    fragment.setArguments(b);
+//
+//
+//                    activity = ((FragmentActivity) context);
+//                    ft = activity.getSupportFragmentManager().beginTransaction();
+//                    ft.replace(R.id.fragment_container, fragment, "ProductDescriptionFromHomeFragment")
+//                            .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                    ft.addToBackStack(null);
+//                    ft.commitAllowingStateLoss();
+//                }else {
+//                    ProductDescriptionFragment fragment = new ProductDescriptionFragment();
+//                    Bundle b = new Bundle();
+//                    b.putString("product_id", arrayList3.get(position).get("Key1").toString());
+//                    b.putString("title", arrayList1.get(position).get("Key2").toString());
+//                    fragment.setArguments(b);
+//
+//
+//                    activity = ((FragmentActivity) context);
+//                    ft = activity.getSupportFragmentManager().beginTransaction();
+//                    ft.replace(R.id.fragment_container, fragment, "ProductDescriptionFragment")
+//                            .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                    ft.addToBackStack(null);
+//                    ft.commitAllowingStateLoss();
 
+//                    fragment2.loadData(arrayList3.get(position).get("Key1"));
+//                }
 
-                activity = ((FragmentActivity) context);
-                ft = activity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fragment, "ProductDescriptionFromHomeFragment")
-                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commitAllowingStateLoss();
+                fragment1.loadData(arrayList3.get(position).get("Key1"));
             }
         });
 
@@ -216,18 +264,38 @@ public class RelatedColorsAdapter extends PagerAdapter {
             @Override
             public void onClick(View view) {
 
-                ProductDescriptionFragment fragment = new ProductDescriptionFragment();
-                Bundle b = new Bundle();
-                b.putString("product_id", arrayList3.get(position).get("Key2").toString());
-                b.putString("title", arrayList1.get(position).get("Key2").toString());
-                fragment.setArguments(b);
+//                if(from.equals("Category")){
+//                    ProductDescriptionFromHomeFragment fragment = new ProductDescriptionFromHomeFragment();
+//                    Bundle b = new Bundle();
+//                    b.putString("product_id", arrayList3.get(position).get("Key2"));
+//                    b.putString("title", arrayList1.get(position).get("Key2"));
+//                    fragment.setArguments(b);
+//
+//                    activity = ((FragmentActivity) context);
+//                    ft = activity.getSupportFragmentManager().beginTransaction();
+//                    ft.replace(R.id.fragment_container, fragment, "ProductDescriptionFromHomeFragment")
+//                            .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                    ft.addToBackStack(null);
+//                    ft.commitAllowingStateLoss();
+//                }else {
+//                    ProductDescriptionFragment fragment = new ProductDescriptionFragment();
+//                    Bundle b = new Bundle();
+//                    b.putString("product_id", arrayList3.get(position).get("Key2").toString());
+//                    b.putString("title", arrayList1.get(position).get("Key2").toString());
+//                    fragment.setArguments(b);
+//
+//                    activity = ((FragmentActivity) context);
+//                    ft = activity.getSupportFragmentManager().beginTransaction();
+//                    ft.replace(R.id.fragment_container, fragment, "ProductDescriptionFragment")
+//                            .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+//                    ft.addToBackStack(null);
+//                    ft.commitAllowingStateLoss();
+//
+//                    fragment2.loadData(arrayList3.get(position).get("Key2"));
+//                }
 
-                activity = ((FragmentActivity) context);
-                ft = activity.getSupportFragmentManager().beginTransaction();
-                ft.replace(R.id.fragment_container, fragment, "ProductDescriptionFromHomeFragment")
-                        .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commitAllowingStateLoss();
+                fragment1.loadData(arrayList3.get(position).get("Key2"));
+
 
             }
         });
@@ -251,4 +319,5 @@ public class RelatedColorsAdapter extends PagerAdapter {
     public Parcelable saveState() {
         return null;
     }
+
 }

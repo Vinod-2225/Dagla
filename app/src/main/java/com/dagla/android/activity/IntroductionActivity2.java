@@ -8,6 +8,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ public class IntroductionActivity2 extends AppCompatActivity {
     //    Button btnSkipIntro;
     DotsIndicator dots_indicator;
     TextView lblTitle,lblSkip;
+    Button btnNext;
 
     PagerAdapter adapterImages;
 
@@ -52,6 +54,8 @@ public class IntroductionActivity2 extends AppCompatActivity {
     ArrayList arrIntroId,arrImages,arrIntroTextEn,arrIntroTextAr,arrDescriptionEn,arrDescriptionAr,arrBtnTextEn,arrBtnTextAr;
 
     DisplayMetrics displaymetrics;
+
+    int screen_pos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,7 +81,7 @@ public class IntroductionActivity2 extends AppCompatActivity {
 
         lblTitle = findViewById(R.id.lblTitle);
         lblSkip = findViewById(R.id.lblSkip);
-
+        btnNext = findViewById(R.id.btnNext);
 
         arrIntroId = new ArrayList<String>();
         arrImages = new ArrayList<Integer>();
@@ -108,10 +112,14 @@ public class IntroductionActivity2 extends AppCompatActivity {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+                screen_pos = position;
+
                 if(GlobalFunctions.getLang(IntroductionActivity2.this).equals("ar")){
                     lblTitle.setText(arrIntroTextAr.get(position).toString());
+                    lblSkip.setText(arrBtnTextAr.get(position).toString());
                 }else {
                     lblTitle.setText(arrIntroTextEn.get(position).toString());
+                    lblSkip.setText(arrBtnTextEn.get(position).toString());
                 }
 
 
@@ -129,14 +137,29 @@ public class IntroductionActivity2 extends AppCompatActivity {
         });
 
 
-        lblSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(IntroductionActivity2.this, StartingActivity.class));
-                finish();
+        lblSkip.setOnClickListener(v -> {
+            startActivity(new Intent(IntroductionActivity2.this, StartingActivity.class));
+            finish();
 
-                GlobalFunctions.setPrefrences(IntroductionActivity2.this, "intro", "1");
+            GlobalFunctions.setPrefrences(IntroductionActivity2.this, "intro", "1");
+        });
+
+
+        btnNext.setOnClickListener(v -> {
+
+
+            if(screen_pos!=arrIntroId.size()-1){
+
+                screen_pos = screen_pos+1;
+                vPagerImages.setCurrentItem(screen_pos);
+
+
+            }else if(screen_pos == arrIntroId.size()-1){
+                screen_pos = 0;
+                vPagerImages.setCurrentItem(screen_pos);
             }
+
+
         });
 
 
@@ -148,6 +171,15 @@ public class IntroductionActivity2 extends AppCompatActivity {
     private void loadData() {
 
         if (GlobalFunctions.hasConnection(act)) {
+
+            arrIntroId.clear();
+            arrImages.clear();
+            arrIntroTextEn.clear();
+            arrIntroTextAr.clear();
+            arrDescriptionEn.clear();
+            arrDescriptionAr.clear();
+            arrBtnTextEn.clear();
+            arrBtnTextAr.clear();
 
             showLoading();
 

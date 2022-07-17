@@ -45,7 +45,7 @@ public class LandingActivity extends AppCompatActivity {
         GlobalFunctions.setLanguage(this);
 
         if(GlobalFunctions.getLang(LandingActivity.this).equals("ar")){
-            setContentView(R.layout.activity_landing);
+            setContentView(R.layout.activity_landing_ar);
         }else {
             setContentView(R.layout.activity_landing);
         }
@@ -63,7 +63,7 @@ public class LandingActivity extends AppCompatActivity {
 
                 finish();
                 Intent intent = new Intent(act, MainActivity.class);
-
+                GlobalFunctions.setPrefrences(act, "landing", "Shop");
                 intent.putExtra("Title", getString(R.string.shop));
 
                 startActivity(intent);
@@ -76,7 +76,7 @@ public class LandingActivity extends AppCompatActivity {
 
                 finish();
                 Intent intent = new Intent(act, MainActivity.class);
-
+                GlobalFunctions.setPrefrences(act, "landing", "Tailoring");
                 intent.putExtra("Title", getString(R.string.tailoring));
 
                 startActivity(intent);

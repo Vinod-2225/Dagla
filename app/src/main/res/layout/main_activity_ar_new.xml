@@ -63,7 +63,7 @@
         android:fitsSystemWindows="true"
         app:labelVisibilityMode="labeled"
         tools:ignore="MissingConstraints"
-        android:layoutDirection="ltr"
+        android:layoutDirection="rtl"
         app:itemIconSize="18dp"
         app:itemTextAppearanceActive="@style/btnTabAr"
         app:itemTextAppearanceInactive="@style/btnTabAr"/>

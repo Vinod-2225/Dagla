@@ -128,7 +128,7 @@ public class SplashActivity extends AppCompatActivity {
                 }else {
 
                     if (!GlobalFunctions.getPrefrences(SplashActivity.this, "user_id").equalsIgnoreCase("")) {
-                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                        startActivity(new Intent(SplashActivity.this, LandingActivity.class));
                         finish();
 
                     }else {

@@ -8,8 +8,8 @@
     <ImageView
         android:id="@+id/imgPic"
         android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:scaleType="fitXY"/>
+        android:layout_height="100dp"
+        android:scaleType="fitXY" />
 
     <LinearLayout
         android:id="@+id/layout1"
@@ -34,6 +34,19 @@
 
         <TextView
             android:id="@+id/lblName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Name"
+            android:textSize="14sp"
+            android:textColor="#121314"
+            android:textStyle="normal"
+            android:fontFamily="@font/avenir_next_medium"
+            android:maxLines="2"
+            android:ellipsize="end"/>
+
+        <TextView
+            android:id="@+id/lblColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -94,16 +107,19 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/sizeLayout"
             android:layout_width="0dp"
-            android:layout_height="30dp"
+            android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:layout_weight="1"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:layout_gravity="center_vertical">
 
             <TextView
                 android:id="@+id/lblSize"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginStart="5dp"
                 android:layout_marginEnd="5dp"
 

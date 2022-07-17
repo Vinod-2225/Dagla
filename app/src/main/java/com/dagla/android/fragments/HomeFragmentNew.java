@@ -3,6 +3,7 @@ package com.dagla.android.fragments;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
@@ -21,6 +22,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -42,6 +44,7 @@ import com.dagla.android.adapter.BestSellerAdapter;
 import com.dagla.android.adapter.EditorialChoiceAdapter;
 import com.dagla.android.adapter.HomeCateAdapter;
 import com.dagla.android.adapter.HomeCateProductsAdapter;
+import com.dagla.android.adapter.ItemsAdapter;
 import com.dagla.android.adapter.ProductColorsAdapter;
 import com.dagla.android.adapter.WhatsNewAdapter;
 import com.dagla.android.parser.HomeCateDetails;
@@ -89,6 +92,18 @@ public class HomeFragmentNew extends Fragment {
     DisplayMetrics displaymetrics;
     GridLayoutManager layoutManager;
 
+    Button btnMen,btnWomen,btnJunior;
+    RelativeLayout pnlLoading, pnlNA;
+    NestedScrollView nsv;
+
+    public int pageNum=1;
+
+    boolean canLoad=true, isLoading=false;
+
+    String homeBannerId="0", categoryId="0", subCategoryId="0", search="", sortBy="", sortDirection="", title, brandId="0";
+
+    RecyclerView.Adapter adapterItems;
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //just change the fragment_dashboard
@@ -109,7 +124,7 @@ public class HomeFragmentNew extends Fragment {
         if (rootView == null) {
 
             if(GlobalFunctions.getLang(getActivity()).equals("ar")){
-                rootView = inflater.inflate(R.layout.fragment_home_new, container, false);
+                rootView = inflater.inflate(R.layout.fragment_home_new_ar, container, false);
             }else {
                 rootView = inflater.inflate(R.layout.fragment_home_new, container, false);
             }
@@ -119,6 +134,15 @@ public class HomeFragmentNew extends Fragment {
 
             vPagerImages = rootView.findViewById(R.id.vPagerImages);
             tabDots = rootView.findViewById(R.id.tabDots);
+
+            btnMen = rootView.findViewById(R.id.btnMen);
+            btnWomen = rootView.findViewById(R.id.btnWomen);
+            btnJunior = rootView.findViewById(R.id.btnJunior);
+            nsv = rootView.findViewById(R.id.nsv);
+            pnlLoading = rootView.findViewById(R.id.pnlLoading);
+            pnlNA = rootView.findViewById(R.id.pnlNA);
+
+
 
             cate_recyclerView = rootView.findViewById(R.id.cate_recyclerView);
 
@@ -130,10 +154,6 @@ public class HomeFragmentNew extends Fragment {
                 @Override
                 public void OnItemClick(int position, View v) {
 
-
-//                    homeCateProductsDetailsArrayList.clear();
-//                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
-//                    products_recyclerView.setAdapter(homeCateProductsAdapter);
                     homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
                     products_recyclerView.setAdapter(homeCateProductsAdapter);
                     homeCateAdapter.Selected(position);
@@ -163,7 +183,90 @@ public class HomeFragmentNew extends Fragment {
 //                }
 //            });
 
-            loadData();
+
+
+            btnMen.setBackgroundResource(R.drawable.bg_1);
+            btnMen.setTextColor(Color.parseColor("#FFFFFF"));
+            btnWomen.setBackgroundResource(R.drawable.bg_2);
+            btnWomen.setTextColor(Color.parseColor("#222222"));
+            btnJunior.setBackgroundResource(R.drawable.bg_2);
+            btnJunior.setTextColor(Color.parseColor("#222222"));
+
+            categoryId = "CIlnSO+5vP8=";
+
+            btnMen.setOnClickListener(v -> {
+
+                btnMen.setBackgroundResource(R.drawable.bg_1);
+                btnMen.setTextColor(Color.parseColor("#FFFFFF"));
+                btnWomen.setBackgroundResource(R.drawable.bg_2);
+                btnWomen.setTextColor(Color.parseColor("#222222"));
+                btnJunior.setBackgroundResource(R.drawable.bg_2);
+                btnJunior.setTextColor(Color.parseColor("#222222"));
+
+                categoryId = "CIlnSO+5vP8=";
+
+                pageNum=1;
+                canLoad = true;
+                isLoading = false;
+
+                loadProductsData();
+
+            });
+
+            btnWomen.setOnClickListener(v -> {
+
+                btnMen.setBackgroundResource(R.drawable.bg_2);
+                btnMen.setTextColor(Color.parseColor("#222222"));
+                btnWomen.setBackgroundResource(R.drawable.bg_1);
+                btnWomen.setTextColor(Color.parseColor("#FFFFFF"));
+                btnJunior.setBackgroundResource(R.drawable.bg_2);
+                btnJunior.setTextColor(Color.parseColor("#222222"));
+
+                categoryId = "nrV7TSMKyNk=";
+
+                pageNum=1;
+                canLoad = true;
+                isLoading = false;
+
+                loadProductsData();
+
+            });
+
+            btnJunior.setOnClickListener(v -> {
+
+                btnMen.setBackgroundResource(R.drawable.bg_2);
+                btnMen.setTextColor(Color.parseColor("#222222"));
+                btnWomen.setBackgroundResource(R.drawable.bg_2);
+                btnWomen.setTextColor(Color.parseColor("#222222"));
+                btnJunior.setBackgroundResource(R.drawable.bg_1);
+                btnJunior.setTextColor(Color.parseColor("#FFFFFF"));
+
+                categoryId = "ymbsS2nKWRo=";
+
+                pageNum=1;
+                canLoad = true;
+                isLoading = false;
+
+                loadProductsData();
+
+            });
+
+            nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+
+                @Override
+                public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+
+                    if (canLoad && !isLoading && scrollY == ((v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()))) {
+
+                        pageNum++;
+
+                        loadProductsData();
+                    }
+
+                }
+            });
+
+            loadBannerData();
 
 
         }
@@ -174,7 +277,7 @@ public class HomeFragmentNew extends Fragment {
 
     }
 
-    private void loadData() {
+    private void loadBannerData() {
 
         if (GlobalFunctions.hasConnection(getActivity())) {
 
@@ -262,20 +365,20 @@ public class HomeFragmentNew extends Fragment {
                                         banner_sub_cat_id,banner_product_id,banner_brand_id,image,homeCateProductsDetailsArrayList);
                                 homeCateDetailsArrayList.add(homeCateDetails);
 
-                                if(i==0){
-
-                                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(i).getHomeCateProducts(),displaymetrics.widthPixels);
-                                    products_recyclerView.setAdapter(homeCateProductsAdapter);
-
-                                    homeCateProductsAdapter.setOnClickListener(new HomeCateProductsAdapter.ClickListener() {
-                                        @Override
-                                        public void OnItemClick(int position, View v) {
-
-                                            homeCateProductsAdapter.Selected(position);
-
-                                        }
-                                    });
-                                }
+//                                if(i==0){
+//
+//                                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(i).getHomeCateProducts(),displaymetrics.widthPixels);
+//                                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+//
+//                                    homeCateProductsAdapter.setOnClickListener(new HomeCateProductsAdapter.ClickListener() {
+//                                        @Override
+//                                        public void OnItemClick(int position, View v) {
+//
+//                                            homeCateProductsAdapter.Selected(position);
+//
+//                                        }
+//                                    });
+//                                }
                             }
 
 
@@ -288,18 +391,13 @@ public class HomeFragmentNew extends Fragment {
 
 //                            homeCateProductsAdapter.notifyDataSetChanged();
 
-
+                            loadProductsData();
 
                         } else {
 
                             GlobalFunctions.showToastError(getActivity(), obj.getString("msg"));
 
                         }
-
-                        if(!GlobalFunctions.getPrefrences(getActivity(), "user_id").equalsIgnoreCase("")){
-//                            loadProfileData();
-                        }
-
 
                     } catch (JSONException e) {
 
@@ -335,6 +433,153 @@ public class HomeFragmentNew extends Fragment {
                 GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet));
             }
 
+
+        }
+
+    }
+
+
+    private void loadProductsData() {
+
+        if (GlobalFunctions.hasConnection(getActivity())) {
+
+            isLoading = true;
+
+            if (pageNum == 1) {
+
+                showLoading();
+
+            } else {
+
+                pnlLoading.setVisibility(View.VISIBLE);
+            }
+
+            AsyncHttpClient client = new AsyncHttpClient();
+
+            RequestParams params = new RequestParams();
+
+            params.put("brandId", brandId);
+            params.put("home_banner_id", homeBannerId);
+            params.put("categoryId", categoryId);
+            params.put("subCategoryId", subCategoryId);
+            params.put("search", search);
+            params.put("sortBy", sortBy);
+            params.put("sortDirection", sortDirection);
+            params.put("pageNum", pageNum);
+            params.put("ran", GlobalFunctions.getRandom());
+
+            if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
+                params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+            }
+
+            client.get(GlobalFunctions.serviceURL + "getItems" , params, new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+
+                    if (pageNum == 1) {
+
+                        hideLoading();
+
+                    } else {
+
+                        pnlLoading.setVisibility(View.GONE);
+                    }
+
+                    String response = new String(bytes);
+
+                    Log.d("onSuccess", response);
+
+                    JSONArray arr;
+                    JSONObject obj;
+
+                    try {
+
+                        obj = ((JSONObject) new JSONTokener(response).nextValue()).getJSONObject("result");
+
+                        if (obj.getString("status").equalsIgnoreCase("1")) {
+
+                            canLoad = obj.getBoolean("can_load");
+
+                            if (pageNum == 1) {
+
+                                sortBy = obj.getString("sort_by");
+                                sortDirection = obj.getString("sort_direction");
+
+                                arrItems = new ArrayList<String>();
+                            }
+
+                            arr = obj.getJSONArray("data");
+
+                            for (int i = 0; i < arr.length(); i++) {
+
+                                arrItems.add(arr.getJSONObject(i).toString());
+
+                            }
+
+                            if (pageNum == 1) {
+
+                                adapterItems = new ItemsAdapter(getActivity(), arrItems, displaymetrics.widthPixels);
+
+                                products_recyclerView.setAdapter(adapterItems);
+
+                                if (arr.length() == 0) {
+
+                                    pnlNA.setVisibility(View.VISIBLE);
+
+                                } else {
+
+                                    pnlNA.setVisibility(View.GONE);
+
+                                }
+
+                            } else {
+
+                                adapterItems.notifyDataSetChanged();
+
+                            }
+
+                        } else {
+
+                            GlobalFunctions.showToastError(getActivity(), obj.getString("msg"));
+
+                        }
+                        //
+                    } catch (JSONException e) {
+
+                        if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                        }else {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                        }
+
+                    }
+
+                    isLoading = false;
+//                    sizesData();
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    hideLoading();
+
+                    if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                    }else {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                    }
+
+                }
+            });
+
+        } else {
+
+            if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet_ar));
+            }else {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet));
+            }
 
         }
 
@@ -411,6 +656,52 @@ public class HomeFragmentNew extends Fragment {
 
                     })
                     .into(adImg);
+
+
+            adImg.setOnClickListener(v -> {
+
+                if(!homeCateDetailsArrayList1.get(position).getHomeBannerCatId().equals("vpM1hJ6qjWc=")||
+                        !homeCateDetailsArrayList1.get(position).getBannerSubCatId().equals("vpM1hJ6qjWc=")||
+                        !homeCateDetailsArrayList1.get(position).getBannerProductId().equals("vpM1hJ6qjWc=")||
+                        !homeCateDetailsArrayList1.get(position).getBannerBrandId().equals("vpM1hJ6qjWc=")
+
+                ){
+                    if( homeCateDetailsArrayList1.get(position).getBannerProductId()!=null&& !homeCateDetailsArrayList1.get(position).getBannerProductId().equals("vpM1hJ6qjWc=")){
+                        ProductDescriptionFromHomeFragment fragment = new ProductDescriptionFromHomeFragment();
+                        Bundle b = new Bundle();
+                        b.putString("product_id", homeCateDetailsArrayList1.get(position).getBannerProductId());
+                        b.putString("title", homeCateDetailsArrayList1.get(position).getHomeBannerCatName());
+                        b.putString("home_banner_name", homeCateDetailsArrayList1.get(position).getHomeBannerCatName());
+                        fragment.setArguments(b);
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, fragment, "ProductDescriptionFromHomeFragment")
+                                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                // .setCustomAnimations(R.anim.right_to_left, R.anim.fadeout_2,0, R.anim.left_to_right)
+                                .commitAllowingStateLoss();
+                    }else {
+                        ProductsFromHomeBannerFragment fragment = new ProductsFromHomeBannerFragment();
+                        Bundle b = new Bundle();
+                        b.putString("cat_id", homeCateDetailsArrayList1.get(position).getHomeBannerCatId());
+                        b.putString("sub_cat_id", homeCateDetailsArrayList1.get(position).getBannerSubCatId());
+                        b.putString("brand_id", homeCateDetailsArrayList1.get(position).getBannerBrandId());
+                        b.putString("home_banner_name", homeCateDetailsArrayList1.get(position).getHomeBannerCatName());
+                        fragment.setArguments(b);
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.fragment_container, fragment, "ProductsFromHomeBannerFragment")
+                                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                // .setCustomAnimations(R.anim.right_to_left, R.anim.fadeout_2,0, R.anim.left_to_right)
+                                .commitAllowingStateLoss();
+                    }
+
+                }
+
+
+
+            });
 
 
             container.addView(itemView);

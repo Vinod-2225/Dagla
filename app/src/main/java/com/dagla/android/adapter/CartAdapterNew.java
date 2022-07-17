@@ -41,11 +41,11 @@ public class CartAdapterNew extends ArrayAdapter<String> {
 
     static class ViewHolder {
         public ImageView imgPic, imgDelete,imgArrow;
-        public TextView lblName, lblPrice, lblQty, lblBrand;
+        public TextView lblName, lblPrice, lblQty, lblBrand,lblColor,lblSize;
 //        public Button btnMinus, btnPlus;
         public RelativeLayout itemLayout;
         public LinearLayout wishlistLayout;
-        public RelativeLayout qtyLayout;
+        public RelativeLayout qtyLayout,sizeLayout;
     }
 
 
@@ -88,7 +88,12 @@ public class CartAdapterNew extends ArrayAdapter<String> {
 
             viewHolder.wishlistLayout = (LinearLayout) rowView.findViewById(R.id.wishlistLayout);
             viewHolder.qtyLayout = (RelativeLayout) rowView.findViewById(R.id.qtyLayout);
-            //
+            viewHolder.sizeLayout = (RelativeLayout) rowView.findViewById(R.id.sizeLayout);
+
+            viewHolder.lblColor = (TextView) rowView.findViewById(R.id.lblColor);
+            viewHolder.lblSize = (TextView) rowView.findViewById(R.id.lblSize);
+
+
             rowView.setTag(viewHolder);
         }
 
@@ -114,9 +119,13 @@ public class CartAdapterNew extends ArrayAdapter<String> {
 
             if(GlobalFunctions.getLang(context).equals("ar")){
                 holder.lblQty.setText("الكمية : "+obj.getString("quantity"));
+                holder.lblColor.setText(context.getResources().getString(R.string.color_ar)+": "+obj.getString("color_name"));
+                holder.lblSize.setText(context.getResources().getString(R.string.size_ar)+": "+obj.getString("size"));
             }else {
 
                 holder.lblQty.setText("Qty : "+obj.getString("quantity"));
+                holder.lblColor.setText(context.getResources().getString(R.string.color)+": "+obj.getString("color_name"));
+                holder.lblSize.setText(context.getResources().getString(R.string.size)+": "+obj.getString("size"));
             }
 
 

@@ -40,6 +40,7 @@ import com.dagla.android.adapter.ImagesAdapter;
 import com.dagla.android.adapter.ItemsAdapter;
 import com.dagla.android.adapter.ProductSizesAdapter;
 import com.dagla.android.adapter.RelatedColorsAdapter;
+import com.dagla.android.adapter.RelatedItemsAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -73,8 +74,8 @@ public class ProductDescriptionFragment extends Fragment {
     RecyclerView rvRelatedItems;
     TextView lblBrand,lblColor,lblStock;
     Button btnAddToWishlist;
-    ViewPager vPagerImages1;
-    TabLayout tabDots1;
+    ViewPager vPagerImages1,vPagerImages2;
+    TabLayout tabDots1,tabDots2;
     
     ImageView wishlistImg;
     TextView lblWishlistTxt;
@@ -120,10 +121,14 @@ public class ProductDescriptionFragment extends Fragment {
     RecyclerView color_recyclerView,size_recyclerView;
 
     ArrayList<String> colorsArrList;
+    ArrayList<String> colorsProductIdArrList;
     ArrayList<String> sizesArrList;
     ProductColorsAdapter productColorsAdapter;
     ProductSizesAdapter productSizesAdapter;
 
+    RelatedItemsAdapter relatedItemsAdapter;
+
+    String product_Id = "0";
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -157,6 +162,7 @@ public class ProductDescriptionFragment extends Fragment {
         size_recyclerView = rootView.findViewById(R.id.size_recyclerView);
 
         colorsArrList = new ArrayList<String>();
+        colorsProductIdArrList = new ArrayList<String>();
         sizesArrList = new ArrayList<String>();
         productNameArrList1 = new ArrayList<String>();
         productIdArrList1 = new ArrayList<String>();
@@ -171,6 +177,9 @@ public class ProductDescriptionFragment extends Fragment {
         vPagerImages1 = rootView.findViewById(R.id.vPagerImages1);
         tabDots1 = rootView.findViewById(R.id.tabDots1);
         pnlRelatedColors = rootView.findViewById(R.id.pnlRelatedColors);
+
+        vPagerImages2 = rootView.findViewById(R.id.vPagerImages2);
+        tabDots2 = rootView.findViewById(R.id.tabDots2);
 
             vPagerImages = rootView.findViewById(R.id.vPagerImages);
             imgOverlay = rootView.findViewById(R.id.imgOverlay);
@@ -264,7 +273,12 @@ public class ProductDescriptionFragment extends Fragment {
 
 
                 setInitialData();
-                loadData();
+                try {
+                    product_Id = objMain.getString("product_id");
+                    loadData(product_Id);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
             //
 
@@ -277,18 +291,18 @@ public class ProductDescriptionFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
 
-                        if (pnlDescription.getVisibility() == View.VISIBLE) {
-
-                            pnlDescription.setVisibility(View.GONE);
-
-                            imgPlus.animate().rotation(0f);
-
-                        } else {
-
-                            imgPlus.animate().rotation(45f);
-
-                            pnlDescription.setVisibility(View.VISIBLE);
-                        }
+//                        if (pnlDescription.getVisibility() == View.VISIBLE) {
+//
+//                            pnlDescription.setVisibility(View.GONE);
+//
+//                            imgPlus.animate().rotation(0f);
+//
+//                        } else {
+//
+//                            imgPlus.animate().rotation(45f);
+//
+//                            pnlDescription.setVisibility(View.VISIBLE);
+//                        }
 
                 }
             });
@@ -515,7 +529,7 @@ public class ProductDescriptionFragment extends Fragment {
 
     }
 
-    private void loadData() {
+    public void loadData(String productId) {
 
         if (GlobalFunctions.hasConnection(getActivity())) {
 
@@ -532,19 +546,22 @@ public class ProductDescriptionFragment extends Fragment {
             arrayList4.clear();
 
             colorsArrList.clear();
+            colorsProductIdArrList.clear();
             sizesArrList.clear();
 
             AsyncHttpClient client = new AsyncHttpClient();
 
             RequestParams params = new RequestParams();
 
-            try {
-                params.put("productId", objMain.getString("product_id"));
-                Log.v("ProductID*****",objMain.getString("product_id"));
-                Log.v("UserID*****",GlobalFunctions.getPrefrences(getActivity(), "user_id"));
-            } catch (JSONException e) {
-                //
-            }
+//            try {
+//                params.put("productId", objMain.getString("product_id"));
+//                Log.v("ProductID*****",objMain.getString("product_id"));
+//                Log.v("UserID*****",GlobalFunctions.getPrefrences(getActivity(), "user_id"));
+//            } catch (JSONException e) {
+//                //
+//            }
+
+            params.put("productId", productId);
 
             params.put("ran", GlobalFunctions.getRandom());
 
@@ -574,6 +591,7 @@ public class ProductDescriptionFragment extends Fragment {
 
                             String lang = GlobalFunctions.getLang(getActivity());
 
+                            product_Id = obj.getString("product_id");
                             brand_Id = obj.getString("brand_id");
                             lblBrand.setText(obj.getString("brand_name"));
 //                            lblColor.setText("Color - "+obj.getString("color_name"));
@@ -633,11 +651,11 @@ public class ProductDescriptionFragment extends Fragment {
                             lblNew.setVisibility(View.GONE);
 
 
-                            if (!obj.getString("color_name").equalsIgnoreCase("")) {
-                                lblColor.setVisibility(View.VISIBLE);
-                            }else {
-                                lblColor.setVisibility(View.GONE);
-                            }
+//                            if (!obj.getString("color_name").equalsIgnoreCase("")) {
+//                                lblColor.setVisibility(View.VISIBLE);
+//                            }else {
+//                                lblColor.setVisibility(View.GONE);
+//                            }
 
                             if (!lblDiscount.getText().toString().equalsIgnoreCase("")) {
 
@@ -666,7 +684,13 @@ public class ProductDescriptionFragment extends Fragment {
                                 for (int i=0; i<arr.length(); i++) {
 
                                     arrSizes.add(arr.getJSONObject(i).toString());
-                                    sizesArrList.add(arr.getJSONObject(i).getString("size_name"));
+                                    if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                                        sizesArrList.add(arr.getJSONObject(i).getString("size_name_ar"));
+                                    }else {
+                                        sizesArrList.add(arr.getJSONObject(i).getString("size_name"));
+                                    }
+
+
                                 }
                             }
 
@@ -720,6 +744,14 @@ public class ProductDescriptionFragment extends Fragment {
                                 }
 
 
+                            }else {
+                                btnAddToCart.setEnabled(true);
+
+                                if (lang.equalsIgnoreCase("ar")) {
+                                    btnAddToCart.setText(getString(R.string.add_to_shopping_bag_ar));
+                                }else {
+                                    btnAddToCart.setText(getString(R.string.add_to_shopping_bag));
+                                }
                             }
 
                             arr = obj.getJSONArray("related");
@@ -732,19 +764,23 @@ public class ProductDescriptionFragment extends Fragment {
 
                                     arrItems.add(arr.getJSONObject(i).toString());
 
+                                    productIdArrList1.add(arr.getJSONObject(i).getString("product_id"));
+                                    productNameArrList1.add(arr.getJSONObject(i).getString("name"));
+                                    productPriceArrList1.add(arr.getJSONObject(i).getString("price"));
+                                    picArrList1.add(arr.getJSONObject(i).getString("pic"));
                                 }
 
-                                adapterItems = new ItemsAdapter(getActivity(), arrItems, displaymetrics.widthPixels);
-
-//                                rvRelatedItems.setLayoutManager(layoutManager);
-
-                                LinearLayoutManager horizontalLayoutManagaer
-                                        = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                                rvRelatedItems.setLayoutManager(horizontalLayoutManagaer);
-
-
-                                rvRelatedItems.setAdapter(adapterItems);
-                                rvRelatedItems.setNestedScrollingEnabled(false);
+//                                adapterItems = new ItemsAdapter(getActivity(), arrItems, displaymetrics.widthPixels);
+//
+////                                rvRelatedItems.setLayoutManager(layoutManager);
+//
+//                                LinearLayoutManager horizontalLayoutManagaer
+//                                        = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+//                                rvRelatedItems.setLayoutManager(horizontalLayoutManagaer);
+//
+//
+//                                rvRelatedItems.setAdapter(adapterItems);
+//                                rvRelatedItems.setNestedScrollingEnabled(false);
                             } else {
 
                                 pnlRelated.setVisibility(View.GONE);
@@ -754,7 +790,7 @@ public class ProductDescriptionFragment extends Fragment {
                             arr3 = obj.getJSONArray("relatedColors");
 
                             if(arr3.length()>0){
-                                pnlRelatedColors.setVisibility(View.VISIBLE);
+                                pnlRelatedColors.setVisibility(View.GONE);
                             }else {
                                 pnlRelatedColors.setVisibility(View.GONE);
                             }
@@ -765,21 +801,35 @@ public class ProductDescriptionFragment extends Fragment {
 
                             for (int j = 0; j < arr3.length(); j++) {
                                 colorsArrList.add(arr3.getJSONObject(j).getString("color_code"));
-                                productIdArrList1.add(arr3.getJSONObject(j).getString("product_id"));
-                                productNameArrList1.add(arr3.getJSONObject(j).getString("name"));
-                                productPriceArrList1.add(arr3.getJSONObject(j).getString("price"));
-                                picArrList1.add(arr3.getJSONObject(j).getString("pic"));
+                                colorsProductIdArrList.add(arr3.getJSONObject(j).getString("product_id"));
+//                                productIdArrList1.add(arr3.getJSONObject(j).getString("product_id"));
+//                                productNameArrList1.add(arr3.getJSONObject(j).getString("name"));
+//                                productPriceArrList1.add(arr3.getJSONObject(j).getString("price"));
+//                                picArrList1.add(arr3.getJSONObject(j).getString("pic"));
+
+
                             }
 
                             color_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
                             productColorsAdapter = new ProductColorsAdapter(requireActivity(), colorsArrList);
                             color_recyclerView.setAdapter(productColorsAdapter);
 
+                            for (int a = 0; a < colorsProductIdArrList.size(); a++) {
+                                if(product_Id.equals(colorsProductIdArrList.get(a))){
+                                    productColorsAdapter.Selected(a);
+                                }
+                            }
+
                             productColorsAdapter.setOnClickListener(new ProductColorsAdapter.ClickListener() {
                                 @Override
                                 public void OnItemClick(int position, View v) {
 
-                                    productColorsAdapter.Selected(position);
+//                                    productColorsAdapter.Selected(position);
+
+                                    if(!product_Id.equals(colorsProductIdArrList.get(position))){
+                                        loadData(colorsProductIdArrList.get(position));
+                                    }
+
                                 }
                             });
 
@@ -924,6 +974,11 @@ public class ProductDescriptionFragment extends Fragment {
                             relatedColorsAdapter = new RelatedColorsAdapter(getActivity(), arrayList1, arrayList2, arrayList3, arrayList4);
                             vPagerImages1.setAdapter(relatedColorsAdapter);
                             tabDots1.setupWithViewPager(vPagerImages1, true);
+
+
+                            relatedItemsAdapter = new RelatedItemsAdapter(getActivity(), arrayList1, arrayList2, arrayList3, arrayList4,ProductDescriptionFragment.this,"Category");
+                            vPagerImages2.setAdapter(relatedItemsAdapter);
+                            tabDots2.setupWithViewPager(vPagerImages2, true);
 
                             if (!GlobalFunctions.getPrefrences(getActivity(), "user_id").equalsIgnoreCase("")) {
                                 loadWishlistData();

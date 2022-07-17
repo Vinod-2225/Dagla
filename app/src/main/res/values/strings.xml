@@ -566,6 +566,18 @@
 
     <string name="shop" translatable="false">Shop</string>
     <string name="skip" translatable="false">Skip</string>
-    <string name="filter">Filter</string>
+    <string name="filter" translatable="false">Filter</string>
+    <string name="men" translatable="false">Men</string>
+    <string name="women" translatable="false">Women</string>
+    <string name="junior" translatable="false">Junior</string>
+    <string name="in_stock" translatable="false">In Stock</string>
 
+
+    <string name="shop_ar" translatable="false">محل</string>
+    <string name="skip_ar" translatable="false">Skip</string>
+    <string name="filter_ar" translatable="false">Filter</string>
+    <string name="men_ar" translatable="false">رجال</string>
+    <string name="women_ar" translatable="false">النساء</string>
+    <string name="junior_ar" translatable="false">مبتدئ</string>
+    <string name="in_stock_ar" translatable="false">متوفر</string>
 </resources>

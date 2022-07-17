@@ -168,6 +168,10 @@ public class MyAddressesFragment extends Fragment {
             params.put("userId", GlobalFunctions.getPrefrences(getActivity(), "user_id"));
             params.put("ran", GlobalFunctions.getRandom());
 
+            if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
+                params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+            }
+
             client.get(GlobalFunctions.serviceURL + "getMyAddresses", params, new AsyncHttpResponseHandler() {
 
                 @Override
