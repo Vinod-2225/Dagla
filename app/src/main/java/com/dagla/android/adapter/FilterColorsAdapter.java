@@ -125,7 +125,7 @@ public class FilterColorsAdapter extends RecyclerView.Adapter<FilterColorsAdapte
 
     public void Selected(int pos){
         this.row_index = pos;
-        mList.get(pos).setSelected(true);
+//        mList.get(pos).setSelected(true);
         notifyDataSetChanged();
     }
 }

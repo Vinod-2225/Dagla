@@ -630,6 +630,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if(screenPosition.equals("1")){
                     ProductsFragment fragment2 = (ProductsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
                     fragment2.filterDialog();
+                }else if(screenPosition.equals("2")){
+//                    ProductsFromHomeViewMoreFragment fragment2 = (ProductsFromHomeViewMoreFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//                    fragment2.filterDialog();
+                }else if(screenPosition.equals("3")){
+                    ProductsFromHomeBannerFragment fragment2 = (ProductsFromHomeBannerFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                    fragment2.filterDialog();
                 }
 
                 break;

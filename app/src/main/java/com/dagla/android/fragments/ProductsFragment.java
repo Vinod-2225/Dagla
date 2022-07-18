@@ -90,6 +90,9 @@ public class ProductsFragment extends Fragment {
     FilterSizesAdapter filterSizesAdapter;
     FilterColorsAdapter filterColorsAdapter;
 
+    String colorIds = "";
+    String sizeIds = "";
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //just change the fragment_dashboard
@@ -194,7 +197,10 @@ public class ProductsFragment extends Fragment {
 //                //
 //            }
             //
-            loadData();
+//            loadData();
+
+            sizesData();
+
             //
             nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
 
@@ -326,6 +332,9 @@ public class ProductsFragment extends Fragment {
             params.put("pageNum", pageNum);
             params.put("ran", GlobalFunctions.getRandom());
 
+            params.put("colorid", colorIds);
+            params.put("sizeid", sizeIds);
+
             if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
                 params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
             }
@@ -414,7 +423,7 @@ public class ProductsFragment extends Fragment {
                     }
 
                     isLoading = false;
-                    sizesData();
+//                    sizesData();
                 }
 
                 @Override
@@ -733,6 +742,7 @@ public class ProductsFragment extends Fragment {
 
                     }
 
+                    loadData();
 
                 }
 
@@ -799,7 +809,20 @@ public class ProductsFragment extends Fragment {
         filterSizesAdapter = new FilterSizesAdapter(requireActivity(), filterSizesDetailsArrayList);
         sizes_recyclerView.setAdapter(filterSizesAdapter);
 
-        filterSizesAdapter.setOnClickListener((position, v) -> filterSizesAdapter.Selected(position));
+        filterSizesAdapter.setOnClickListener((position, v) -> {
+
+            if (filterSizesDetailsArrayList.get(position).isSelected()) {
+
+                filterSizesDetailsArrayList.get(position).setSelected(false);
+
+            }else {
+                filterSizesDetailsArrayList.get(position).setSelected(true);
+            }
+
+            filterSizesAdapter.Selected(position);
+
+
+        });
 
 
         RecyclerView colors_recyclerView = dialog.findViewById(R.id.colors_recyclerView);
@@ -813,12 +836,88 @@ public class ProductsFragment extends Fragment {
         filterColorsAdapter = new FilterColorsAdapter(requireActivity(), filterColorsDetailsArrayList);
         colors_recyclerView.setAdapter(filterColorsAdapter);
 
-        filterColorsAdapter.setOnClickListener((position, v) -> filterColorsAdapter.Selected(position));
+//        filterColorsAdapter.setOnClickListener((position, v) -> {
+//            filterColorsAdapter.Selected(position)
+//        });
+
+
+        filterColorsAdapter.setOnClickListener((position, v) -> {
+
+            if (filterColorsDetailsArrayList.get(position).isSelected()) {
+
+                filterColorsDetailsArrayList.get(position).setSelected(false);
+
+            }else {
+                filterColorsDetailsArrayList.get(position).setSelected(true);
+            }
+
+
+            filterColorsAdapter.Selected(position);
+        });
 
 
         btnCancel.setOnClickListener(view -> dialog.dismiss());
 
-        btnDone.setOnClickListener(view -> dialog.dismiss());
+//        btnDone.setOnClickListener(view -> dialog.dismiss());
+
+        btnDone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                StringBuilder s1 = new StringBuilder();
+
+                for (int i = 0; i < filterSizesDetailsArrayList.size(); i++) {
+
+                    if (filterSizesDetailsArrayList.get(i).isSelected()) {
+                        s1.append(filterSizesDetailsArrayList.get(i).getSizeId());
+
+                        if (i == filterSizesDetailsArrayList.size() - 1) {
+//                        s.append("]")
+                        } else {
+
+                            s1.append(",");
+
+                        }
+                    }
+
+                }
+
+                sizeIds = s1.toString();
+
+                Log.d("SizeIds", sizeIds);
+
+                StringBuilder s2 = new StringBuilder();
+
+                for (int i = 0; i < filterColorsDetailsArrayList.size(); i++) {
+
+                    if (filterColorsDetailsArrayList.get(i).isSelected()) {
+                        s2.append(filterColorsDetailsArrayList.get(i).getColorId());
+
+                        if (i == filterColorsDetailsArrayList.size() - 1) {
+//                        s.append("]")
+                        } else {
+
+                            s2.append(",");
+
+                        }
+                    }
+
+                }
+
+                colorIds = s2.toString();
+
+                Log.d("ColorIds", colorIds);
+
+                dialog.dismiss();
+
+                pageNum =  1;
+                canLoad = true;
+                isLoading = false;
+
+                loadData();
+
+            }
+        });
 
         sizesLayout.setVisibility(View.VISIBLE);
         colorsLayout.setVisibility(View.GONE);

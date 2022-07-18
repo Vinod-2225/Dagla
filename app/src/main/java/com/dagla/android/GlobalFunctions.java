@@ -39,6 +39,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
 
@@ -58,6 +59,13 @@ public class GlobalFunctions {
     public static String cartIds = "";
 
 //    https://portal.dagla.com/services/ajax_v2.aspx?app=ios&lang=en&ver=1.0&cat=getCurrencyList&ran=71
+
+
+    ArrayList<String> colorIdList = new ArrayList<>();
+    ArrayList<String> colorNameList = new ArrayList<>();
+
+    ArrayList<String> sizeIdList = new ArrayList<>();
+    ArrayList<String> sizeNameList = new ArrayList<>();
 
     public static void setPrefrences(Context context, String name, String val) {
 
