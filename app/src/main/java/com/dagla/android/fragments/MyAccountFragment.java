@@ -599,7 +599,7 @@ public class MyAccountFragment extends Fragment {
                     }
 //
                     GlobalFunctions.setLanguage(getActivity());
-//
+                    GlobalFunctions.setPrefrences(getActivity(), "landing", "Shop");
 //
                     getActivity().finish();
                     startActivity(new Intent(getActivity(), MainActivity.class));

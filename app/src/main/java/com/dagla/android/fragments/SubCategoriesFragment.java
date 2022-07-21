@@ -123,21 +123,21 @@ public class SubCategoriesFragment extends Fragment {
                         ProductsFragment fragment = new ProductsFragment();
                         Bundle b = new Bundle();
                         b.putString("cat_id", category_Id);
-                        if(position==0){
-                            b.putString("sub_cat_id", "0");
-                            if (GlobalFunctions.getLang(context).equalsIgnoreCase("ar")) {
-                                b.putString("title", category_Name);
-                            }else{
-                                b.putString("title", category_Name);
-                            }
-                        }else {
+//                        if(position==0){
+//                            b.putString("sub_cat_id", "0");
+//                            if (GlobalFunctions.getLang(context).equalsIgnoreCase("ar")) {
+//                                b.putString("title", category_Name);
+//                            }else{
+//                                b.putString("title", category_Name);
+//                            }
+//                        }else {
                             b.putString("sub_cat_id", obj.getString("cat_id"));
                             if (GlobalFunctions.getLang(context).equalsIgnoreCase("ar")) {
                                 b.putString("title", obj.getString("cat_ar"));
                             }else{
                                 b.putString("title", obj.getString("cat_en"));
                             }
-                        }
+//                        }
 
 
 

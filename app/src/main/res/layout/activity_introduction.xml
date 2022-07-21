@@ -21,43 +21,49 @@
             android:id="@+id/lblSkip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:fontFamily="@font/avenir_next_medium"
             android:textSize="14sp"
             android:textColor="#222222"
             android:text=""
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:textStyle="bold"
             android:padding="4dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="15dp"
+            android:layout_margin="15dp"
             android:layout_gravity="end"/>
+
+        <TextView
+            android:id="@+id/lblTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/avenir_next_medium"
+            android:textSize="20sp"
+            android:textColor="#222222"
+            android:text="تخطي مقدمة"
+            android:textAllCaps="false"
+            android:textStyle="bold"
+            android:padding="4dp"
+            android:layout_margin="15dp"
+            android:visibility="visible"/>
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/lblTitle"
-                android:layout_width="match_parent"
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dots_indicator"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_toStartOf="@+id/btnNext"
                 android:layout_centerVertical="true"
-                android:fontFamily="@font/avenir_next_medium"
-                android:textSize="20sp"
-                android:textColor="#222222"
-                android:text="تخطي مقدمة"
-                android:textAllCaps="true"
-                android:textStyle="bold"
-                android:padding="4dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
+                app:dotsColor="#cccccc"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="12dp"
+                app:dotsSpacing="4dp"
+                app:dotsWidthFactor="2.5"
+                app:selectedDotColor="#222222"
+                app:progressMode="false"
                 android:layout_gravity="start"
-                android:visibility="visible"
-                android:gravity="left|center_vertical"/>
+                android:layout_margin="15dp"/>
 
             <Button
                 android:id="@+id/btnNext"
@@ -68,26 +74,7 @@
                 android:layout_margin="15dp"
                 android:background="@drawable/intro_screen_arrow_icon"/>
 
-
         </RelativeLayout>
-
-
-
-
-        <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-            android:id="@+id/dots_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:dotsColor="#cccccc"
-            app:dotsCornerRadius="8dp"
-            app:dotsSize="12dp"
-            app:dotsSpacing="4dp"
-            app:dotsWidthFactor="2.5"
-            app:selectedDotColor="#222222"
-            app:progressMode="false"
-            android:layout_gravity="start"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"/>
 
 
         <androidx.viewpager.widget.ViewPager
@@ -95,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"/>
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

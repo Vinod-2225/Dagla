@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -79,8 +80,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     EditText txtSearch;
 
-    Button imgSearch,imgCart,imgBack,imgBack2,imgSort,btnDone,imgFilter;
+    Button imgSearch,imgCart,imgBack2,imgSort,btnDone,imgFilter;
     ImageView imgDaglaLogo;
+    ImageButton imgBack;
 
     RelativeLayout layoutWishList,layoutCart,titleLayout,searchLayout,pnlDim;
 
@@ -501,7 +503,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgDaglaLogo = (ImageView) findViewById(R.id.imgDaglaLogo);
         imgSearch = (Button) findViewById(R.id.imgSearch);
         imgCart = (Button) findViewById(R.id.imgCart);
-        imgBack = (Button) findViewById(R.id.imgBack);
+        imgBack = (ImageButton) findViewById(R.id.imgBack);
         imgSort = (Button) findViewById(R.id.imgSort);
         btnDone = (Button) findViewById(R.id.btnDone);
         imgFilter = (Button) findViewById(R.id.imgFilter);
@@ -523,6 +525,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtSearch = (EditText) findViewById(R.id.txtSearch);
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
+
+
     }
 
     private void setOnClickListeners() {
@@ -537,6 +541,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         imgBack2.setOnClickListener(this);
         btnDone.setOnClickListener(this);
         imgFilter.setOnClickListener(this);
+
     }
 
     @Override

@@ -123,7 +123,7 @@ public class CheckoutPaymentFragmentNew extends Fragment {
         lblCreditCardTxt = rootView.findViewById(R.id.lblCreditCardTxt);
         lblWalletTxt = rootView.findViewById(R.id.lblWalletTxt);
 
-        if(GlobalFunctions.getPrefrences(getActivity(), "CountryName").equals("Kuwait")||GlobalFunctions.getPrefrences(getActivity(), "CountryNameAr").equals("الكويت")){
+        if(GlobalFunctions.getPrefrences(getActivity(), "CountryName").equals("Kuwait")||GlobalFunctions.getPrefrences(getActivity(), "CountryNameAr").equals("الكويت")|| GlobalFunctions.getPrefrences(getActivity(), "CountryName").equals("")){
             knetLayout.setVisibility(View.VISIBLE);
             masterVisaLayout.setVisibility(View.VISIBLE);
             walletLayout.setVisibility(View.VISIBLE);

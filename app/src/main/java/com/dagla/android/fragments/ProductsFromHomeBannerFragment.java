@@ -314,7 +314,9 @@ public class ProductsFromHomeBannerFragment extends Fragment {
             params.put("brandId", brandId);
 //            params.put("home_banner_id", homeBannerId);
             params.put("categoryId", categoryId);
-            params.put("subCategoryId", subCategoryId);
+            if(!categoryId.equals(subCategoryId)){
+                params.put("subCategoryId", subCategoryId);
+            }
             params.put("search", search);
             params.put("sortBy", sortBy);
             params.put("sortDirection", sortDirection);
@@ -561,7 +563,9 @@ public class ProductsFromHomeBannerFragment extends Fragment {
 //            params.put("brandId", brandId);
 //            params.put("home_banner_id", homeBannerId);
             params.put("catid", categoryId);
-            params.put("subcatid", subCategoryId);
+            if(!categoryId.equals(subCategoryId)){
+                params.put("subcatid", subCategoryId);
+            }
 //            params.put("search", search);
 //            params.put("sortBy", sortBy);
 //            params.put("sortDirection", sortDirection);
@@ -667,7 +671,9 @@ public class ProductsFromHomeBannerFragment extends Fragment {
 //            params.put("brandId", brandId);
 //            params.put("home_banner_id", homeBannerId);
             params.put("catid", categoryId);
-            params.put("subcatid", subCategoryId);
+            if(!categoryId.equals(subCategoryId)){
+                params.put("subcatid", subCategoryId);
+            }
 //            params.put("search", search);
 //            params.put("sortBy", sortBy);
 //            params.put("sortDirection", sortDirection);

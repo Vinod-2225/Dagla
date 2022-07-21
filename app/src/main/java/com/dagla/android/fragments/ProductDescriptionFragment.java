@@ -204,7 +204,7 @@ public class ProductDescriptionFragment extends Fragment {
             wishlistImg =rootView.findViewById(R.id.wishlistImg);
             lblWishlistTxt = rootView.findViewById(R.id.lblWishlistTxt);
         wishlistLayout = rootView.findViewById(R.id.wishlistLayout);
-        wishlistLayout.setVisibility(View.GONE);
+//        wishlistLayout.setVisibility(View.GONE);
 
             lblBrand = rootView.findViewById(R.id.lblBrand);
             lblColor = rootView.findViewById(R.id.lblColor);
@@ -592,6 +592,7 @@ public class ProductDescriptionFragment extends Fragment {
                             String lang = GlobalFunctions.getLang(getActivity());
 
                             product_Id = obj.getString("product_id");
+                            variationProductId = product_Id;
                             brand_Id = obj.getString("brand_id");
                             lblBrand.setText(obj.getString("brand_name"));
 //                            lblColor.setText("Color - "+obj.getString("color_name"));
@@ -839,9 +840,42 @@ public class ProductDescriptionFragment extends Fragment {
 
                             productSizesAdapter.setOnClickListener(new ProductSizesAdapter.ClickListener() {
                                 @Override
-                                public void OnItemClick(int position, View v) {
+                                public void OnItemClick(int position, View v) throws JSONException {
 
                                     productSizesAdapter.Selected(position);
+
+                                    JSONObject obj = new JSONObject(arrSizes.get(position));
+
+                                    variationProductId = obj.getString("product_id");
+
+                                    txtSize.setText(obj.getString("size_name"));
+
+                                    if (!obj.getBoolean("in_stock")) {
+
+                                        btnAddToCart.setEnabled(false);
+
+                                        if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                                            btnAddToCart.setText(getString(R.string.sold_out_ar));
+                                            lblStock.setText("نفذت");
+                                        }else {
+                                            btnAddToCart.setText(getString(R.string.sold_out));
+                                            lblStock.setText("Out of Stock");
+                                        }
+
+                                    }else {
+
+                                        btnAddToCart.setEnabled(true);
+
+                                        if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                                            btnAddToCart.setText(getString(R.string.add_to_shopping_bag_ar));
+                                            lblStock.setText("متوفر");
+                                        }else {
+                                            btnAddToCart.setText(getString(R.string.add_to_shopping_bag));
+                                            lblStock.setText("In Stock");
+                                        }
+                                    }
+
+
                                 }
                             });
 
@@ -986,11 +1020,11 @@ public class ProductDescriptionFragment extends Fragment {
 
 
 
-                            if(obj.getBoolean("in_stock")&&!GlobalFunctions.getPrefrences(getActivity(), "user_id").equalsIgnoreCase("")){
-                                wishlistLayout.setVisibility(View.VISIBLE);
-                            }else {
-                                wishlistLayout.setVisibility(View.GONE);
-                            }
+//                            if(obj.getBoolean("in_stock")&&!GlobalFunctions.getPrefrences(getActivity(), "user_id").equalsIgnoreCase("")){
+//                                wishlistLayout.setVisibility(View.VISIBLE);
+//                            }else {
+//                                wishlistLayout.setVisibility(View.GONE);
+//                            }
 
                         } else {
 

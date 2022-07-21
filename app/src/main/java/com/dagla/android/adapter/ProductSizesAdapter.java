@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 
+import org.json.JSONException;
+
 import java.util.ArrayList;
 
 public class ProductSizesAdapter extends RecyclerView.Adapter<ProductSizesAdapter.ViewHolder> {
@@ -30,7 +32,7 @@ public class ProductSizesAdapter extends RecyclerView.Adapter<ProductSizesAdapte
     }
 
     public interface ClickListener {
-        void OnItemClick(int position, View v);
+        void OnItemClick(int position, View v) throws JSONException;
     }
 
 
@@ -55,7 +57,11 @@ public class ProductSizesAdapter extends RecyclerView.Adapter<ProductSizesAdapte
 
         @Override
         public void onClick(View v) {
-            clickListener.OnItemClick(getAdapterPosition(), v);
+            try {
+                clickListener.OnItemClick(getAdapterPosition(), v);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
     }
