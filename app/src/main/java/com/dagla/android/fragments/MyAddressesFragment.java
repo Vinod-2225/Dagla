@@ -170,6 +170,8 @@ public class MyAddressesFragment extends Fragment {
 
             if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
                 params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+//            }else {
+//                params.put("curr", "KWD");
             }
 
             client.get(GlobalFunctions.serviceURL + "getMyAddresses", params, new AsyncHttpResponseHandler() {

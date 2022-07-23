@@ -27,6 +27,7 @@ import com.dagla.android.GlobalFunctions;
 import com.dagla.android.MyApplication;
 import com.dagla.android.R;
 import com.dagla.android.activity.MainActivity;
+import com.dagla.android.adapter.AddressesAdapter;
 import com.dagla.android.adapter.AddressesFromCheckOutAdapter;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -148,7 +149,8 @@ public class CheckoutDeliveryFragment extends Fragment {
                 }
             });
             //
-            loadData();
+//            loadData();
+        loadData2();
 //        }
 
         return rootView;
@@ -202,6 +204,154 @@ public class CheckoutDeliveryFragment extends Fragment {
                                 arrList.add(arr.getJSONObject(i).toString());
                             }
                             //
+                            arrAdapter = new AddressesFromCheckOutAdapter(getActivity(), arrList, CheckoutDeliveryFragment.this);
+                            //
+                            lv.setAdapter(arrAdapter);
+                            //
+                            if (arr.length() == 0) {
+
+                                if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+                                    addAddressDialog(getString(R.string.your_address_book_is_empty_ar));
+                                }else {
+                                    addAddressDialog(getString(R.string.your_address_book_is_empty));
+                                }
+
+
+//                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//
+//                                builder.setMessage(R.string.your_address_book_is_empty);
+//
+//                                builder.setPositiveButton(getString(R.string.add_new_address).toUpperCase(), new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//
+////                                        startActivityForResult(new Intent(getActivity(), AddAddressActivity.class), ADD_ADDRESS_REQUEST);
+//
+//                                        AddAddressFragmentFromCheckOut fragment1 = new AddAddressFragmentFromCheckOut();
+//                                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                                        fragmentManager.beginTransaction()
+//                                                .replace(R.id.fragment_container, fragment1, "AddAddressFragmentFromCheckOut")
+//                                                .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+//                                                .addToBackStack(null)
+//                                                // .setCustomAnimations(R.anim.right_to_left, R.anim.fadeout_2,0, R.anim.left_to_right)
+//                                                .commitAllowingStateLoss();
+//
+//                                    }
+//                                });
+//
+//                                builder.setCancelable(false);
+//
+//                                AlertDialog dialog = builder.create();
+//
+//                                dialog.show();
+
+                            } else if (arr.length() == 1) {
+                                if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+                                    lblTotal.setText("1   "+getString(R.string.address_ar));
+                                }else {
+                                    lblTotal.setText(String.format(Locale.US, "1 %s", getString(R.string.address)));
+                                }
+
+
+                            } else {
+                                if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+                                    lblTotal.setText(""+arr.length()+"   "+ getString(R.string.addresses_ar));
+                                }else {
+                                    lblTotal.setText(String.format(Locale.US, "%d %s", arr.length(), getString(R.string.addresses)));
+                                }
+
+                            }
+
+                        } else {
+
+                            GlobalFunctions.showToastError(getActivity(), obj.getString("msg"));
+
+                        }
+
+                    } catch (JSONException e) {
+
+                        if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                        }else {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    hideLoading();
+
+                    if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                    }else {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                    }
+
+                }
+            });
+
+        } else {
+
+            if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet_ar));
+            }else {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet));
+            }
+
+        }
+
+    }
+
+    private void loadData2() {
+
+        if (GlobalFunctions.hasConnection(getActivity())) {
+
+            showLoading();
+
+            AsyncHttpClient client = new AsyncHttpClient();
+
+            RequestParams params = new RequestParams();
+
+            params.put("userId", GlobalFunctions.getPrefrences(getActivity(), "user_id"));
+            params.put("ran", GlobalFunctions.getRandom());
+
+            if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
+                params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+//            }else{
+//                params.put("curr", "KWD");
+            }
+
+            client.get(GlobalFunctions.serviceURL + "getMyAddresses", params, new AsyncHttpResponseHandler() {
+
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+
+                    hideLoading();
+
+                    String response = new String(bytes);
+
+                    Log.d("onSuccess", response);
+
+                    JSONArray arr;
+                    JSONObject obj;
+
+                    try {
+
+                        obj = ((JSONObject) new JSONTokener(response).nextValue()).getJSONObject("result");
+                        //
+                        if (obj.getString("status").equalsIgnoreCase("1")) {
+                            //
+                            arr = obj.getJSONArray("data");
+                            //
+                            arrList = new ArrayList<String>();
+                            //
+                            for (int i = 0; i < arr.length(); i++) {
+                                //
+                                arrList.add(arr.getJSONObject(i).toString());
+                            }
                             arrAdapter = new AddressesFromCheckOutAdapter(getActivity(), arrList, CheckoutDeliveryFragment.this);
                             //
                             lv.setAdapter(arrAdapter);

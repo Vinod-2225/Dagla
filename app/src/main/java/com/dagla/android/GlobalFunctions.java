@@ -98,6 +98,13 @@ public class GlobalFunctions {
 
     }
 
+    public static String getCountryPrefrences(Context context, String name) {
+
+        SharedPreferences settings = context.getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
+        return settings.getString(name, "");
+
+    }
+
     public static String getRandom() {
 
         Random ran = new Random();

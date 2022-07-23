@@ -45,6 +45,20 @@
             android:ellipsize="end"
             android:gravity="right"/>
 
+        <TextView
+            android:id="@+id/lblColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:text="Name"
+            android:textSize="14sp"
+            android:textColor="#121314"
+            android:textStyle="normal"
+            android:fontFamily="@font/avenir_next_medium"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:gravity="right"/>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

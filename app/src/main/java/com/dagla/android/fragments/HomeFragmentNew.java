@@ -660,7 +660,7 @@ public class HomeFragmentNew extends Fragment {
 
             adImg.setOnClickListener(v -> {
 
-                if(!homeCateDetailsArrayList1.get(position).getHomeBannerCatId().equals("vpM1hJ6qjWc=")||
+                if(!homeCateDetailsArrayList1.get(position).getBannerCatId().equals("vpM1hJ6qjWc=")||
                         !homeCateDetailsArrayList1.get(position).getBannerSubCatId().equals("vpM1hJ6qjWc=")||
                         !homeCateDetailsArrayList1.get(position).getBannerProductId().equals("vpM1hJ6qjWc=")||
                         !homeCateDetailsArrayList1.get(position).getBannerBrandId().equals("vpM1hJ6qjWc=")
@@ -683,7 +683,7 @@ public class HomeFragmentNew extends Fragment {
                     }else {
                         ProductsFromHomeBannerFragment fragment = new ProductsFromHomeBannerFragment();
                         Bundle b = new Bundle();
-                        b.putString("cat_id", homeCateDetailsArrayList1.get(position).getHomeBannerCatId());
+                        b.putString("cat_id", homeCateDetailsArrayList1.get(position).getBannerCatId());
                         b.putString("sub_cat_id", homeCateDetailsArrayList1.get(position).getBannerSubCatId());
                         b.putString("brand_id", homeCateDetailsArrayList1.get(position).getBannerBrandId());
                         b.putString("home_banner_name", homeCateDetailsArrayList1.get(position).getHomeBannerCatName());

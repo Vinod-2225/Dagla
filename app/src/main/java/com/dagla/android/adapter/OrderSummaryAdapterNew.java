@@ -43,7 +43,7 @@ public class OrderSummaryAdapterNew extends RecyclerView.Adapter<OrderSummaryAda
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         public ImageView imgPic;
-        public TextView lblName, lblPrice, lblQty;
+        public TextView lblName, lblPrice, lblQty, lblColor;
         public RelativeLayout itemLayout;
 
         public ViewHolder(View itemView) {
@@ -59,7 +59,7 @@ public class OrderSummaryAdapterNew extends RecyclerView.Adapter<OrderSummaryAda
             lblName = (TextView)itemView.findViewById(R.id.lblName);
             lblPrice = (TextView)itemView.findViewById(R.id.lblPrice);
             lblQty = (TextView)itemView.findViewById(R.id.lblQty);
-
+            lblColor = (TextView)itemView.findViewById(R.id.lblColor);
 
             itemLayout = (RelativeLayout) itemView.findViewById(R.id.itemLayout);
 
@@ -131,6 +131,24 @@ public class OrderSummaryAdapterNew extends RecyclerView.Adapter<OrderSummaryAda
 
             holder1.lblQty.setText("x"+obj.getString("quantity"));
 
+            if(GlobalFunctions.getLang(mContext).equals("ar")){
+                holder1.lblColor.setText(mContext.getResources().getString(R.string.color_ar)+": "+obj.getString("color_name"));
+            }else {
+                holder1.lblColor.setText(mContext.getResources().getString(R.string.color)+": "+obj.getString("color_name"));
+            }
+
+            if(obj.getString("color_name").equals("")){
+                holder1.lblColor.setVisibility(View.GONE);
+            }else {
+                holder1.lblColor.setVisibility(View.VISIBLE);
+            }
+
+
+            if (!obj.getString("color_name").equals("")){
+                holder1.lblColor.setText(obj.getString("color_name"));
+            }else {
+                holder1.lblColor.setText(obj.getString("color_name"));
+            }
 
 
             holder1.imgPic.setOnClickListener(new View.OnClickListener() {

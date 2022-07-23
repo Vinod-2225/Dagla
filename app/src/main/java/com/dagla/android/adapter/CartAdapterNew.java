@@ -129,6 +129,19 @@ public class CartAdapterNew extends ArrayAdapter<String> {
             }
 
 
+            if(obj.getString("color_name").equals("")){
+                holder.lblColor.setVisibility(View.GONE);
+            }else {
+                holder.lblColor.setVisibility(View.VISIBLE);
+            }
+
+            if(obj.getString("size").equals("")){
+                holder.sizeLayout.setVisibility(View.GONE);
+            }else {
+                holder.sizeLayout.setVisibility(View.VISIBLE);
+            }
+
+
             holder.lblBrand.setText(obj.getString("brand_name"));
 
 

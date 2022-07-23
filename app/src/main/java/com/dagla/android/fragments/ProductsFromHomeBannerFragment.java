@@ -312,11 +312,11 @@ public class ProductsFromHomeBannerFragment extends Fragment {
             RequestParams params = new RequestParams();
 
             params.put("brandId", brandId);
-//            params.put("home_banner_id", homeBannerId);
+            params.put("home_banner_id", homeBannerId);
             params.put("categoryId", categoryId);
-            if(!categoryId.equals(subCategoryId)){
+//            if(!categoryId.equals(subCategoryId)){
                 params.put("subCategoryId", subCategoryId);
-            }
+//            }
             params.put("search", search);
             params.put("sortBy", sortBy);
             params.put("sortDirection", sortDirection);

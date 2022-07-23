@@ -123,12 +123,13 @@ public class ProductDescriptionFragment extends Fragment {
     ArrayList<String> colorsArrList;
     ArrayList<String> colorsProductIdArrList;
     ArrayList<String> sizesArrList;
+    ArrayList<String> sizesProductIdArrList;
     ProductColorsAdapter productColorsAdapter;
     ProductSizesAdapter productSizesAdapter;
 
     RelatedItemsAdapter relatedItemsAdapter;
 
-    String product_Id = "0";
+//    String product_Id = "0";
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -164,10 +165,21 @@ public class ProductDescriptionFragment extends Fragment {
         colorsArrList = new ArrayList<String>();
         colorsProductIdArrList = new ArrayList<String>();
         sizesArrList = new ArrayList<String>();
+        sizesProductIdArrList = new ArrayList<>();
         productNameArrList1 = new ArrayList<String>();
         productIdArrList1 = new ArrayList<String>();
         productPriceArrList1 = new ArrayList<String>();
         picArrList1 = new ArrayList<String>();
+
+
+        color_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+        productColorsAdapter = new ProductColorsAdapter(requireActivity(), colorsArrList);
+        color_recyclerView.setAdapter(productColorsAdapter);
+
+
+        size_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+        productSizesAdapter = new ProductSizesAdapter(requireActivity(), sizesArrList);
+        size_recyclerView.setAdapter(productSizesAdapter);
 
         arrayList1 = new ArrayList<HashMap<String, String>>();
         arrayList2 = new ArrayList<HashMap<String, String>>();
@@ -274,8 +286,8 @@ public class ProductDescriptionFragment extends Fragment {
 
                 setInitialData();
                 try {
-                    product_Id = objMain.getString("product_id");
-                    loadData(product_Id);
+                    variationProductId = objMain.getString("product_id");
+                    loadData(variationProductId);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -548,6 +560,7 @@ public class ProductDescriptionFragment extends Fragment {
             colorsArrList.clear();
             colorsProductIdArrList.clear();
             sizesArrList.clear();
+            sizesProductIdArrList.clear();
 
             AsyncHttpClient client = new AsyncHttpClient();
 
@@ -591,8 +604,8 @@ public class ProductDescriptionFragment extends Fragment {
 
                             String lang = GlobalFunctions.getLang(getActivity());
 
-                            product_Id = obj.getString("product_id");
-                            variationProductId = product_Id;
+                            variationProductId = obj.getString("product_id");
+//                            variationProductId = product_Id;
                             brand_Id = obj.getString("brand_id");
                             lblBrand.setText(obj.getString("brand_name"));
 //                            lblColor.setText("Color - "+obj.getString("color_name"));
@@ -690,6 +703,8 @@ public class ProductDescriptionFragment extends Fragment {
                                     }else {
                                         sizesArrList.add(arr.getJSONObject(i).getString("size_name"));
                                     }
+
+                                    sizesProductIdArrList.add(arr.getJSONObject(i).getString("product_id"));
 
 
                                 }
@@ -811,12 +826,13 @@ public class ProductDescriptionFragment extends Fragment {
 
                             }
 
-                            color_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
-                            productColorsAdapter = new ProductColorsAdapter(requireActivity(), colorsArrList);
-                            color_recyclerView.setAdapter(productColorsAdapter);
+//                            color_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+//                            productColorsAdapter = new ProductColorsAdapter(requireActivity(), colorsArrList);
+//                            color_recyclerView.setAdapter(productColorsAdapter);
+                            productColorsAdapter.notifyDataSetChanged();
 
                             for (int a = 0; a < colorsProductIdArrList.size(); a++) {
-                                if(product_Id.equals(colorsProductIdArrList.get(a))){
+                                if(variationProductId.equals(colorsProductIdArrList.get(a))){
                                     productColorsAdapter.Selected(a);
                                 }
                             }
@@ -827,16 +843,26 @@ public class ProductDescriptionFragment extends Fragment {
 
 //                                    productColorsAdapter.Selected(position);
 
-                                    if(!product_Id.equals(colorsProductIdArrList.get(position))){
+                                    if(!variationProductId.equals(colorsProductIdArrList.get(position))){
                                         loadData(colorsProductIdArrList.get(position));
                                     }
 
                                 }
                             });
 
-                            size_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
-                            productSizesAdapter = new ProductSizesAdapter(requireActivity(), sizesArrList);
-                            size_recyclerView.setAdapter(productSizesAdapter);
+
+
+//                            size_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+//                            productSizesAdapter = new ProductSizesAdapter(requireActivity(), sizesArrList);
+//                            size_recyclerView.setAdapter(productSizesAdapter);
+
+                            productSizesAdapter.notifyDataSetChanged();
+
+                            for (int a = 0; a < sizesProductIdArrList.size(); a++) {
+                                if(variationProductId.equals(sizesProductIdArrList.get(a))){
+                                    productSizesAdapter.Selected(a);
+                                }
+                            }
 
                             productSizesAdapter.setOnClickListener(new ProductSizesAdapter.ClickListener() {
                                 @Override
@@ -848,6 +874,7 @@ public class ProductDescriptionFragment extends Fragment {
 
                                     variationProductId = obj.getString("product_id");
 
+//                                    loadData(variationProductId);
                                     txtSize.setText(obj.getString("size_name"));
 
                                     if (!obj.getBoolean("in_stock")) {

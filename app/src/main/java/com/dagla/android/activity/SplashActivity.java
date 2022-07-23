@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
@@ -89,6 +90,22 @@ public class SplashActivity extends AppCompatActivity {
 //        }
 
         activity = this;
+
+        if(GlobalFunctions.getPrefrences(this, "CountryCurrency").equals("")){
+            SharedPreferences sharedPreferences = this.getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("CountryNameAr","الكويت");
+            editor.putString("CountryName","Kuwait");
+            editor.putString("CountryCurrency","KWD");
+            editor.putString("CountryFlag","https://portal.dagla.com/thumbnail.ashx?Width=129&Height=87&Cat=c&Image=file/country_icons/Kuwait.jpeg");
+            editor.commit();
+        }else {
+//            params.put("curr", "KWD");
+        }
+
+
+
+
 
 
         ImageView imageView = (ImageView) findViewById(R.id.imageView);

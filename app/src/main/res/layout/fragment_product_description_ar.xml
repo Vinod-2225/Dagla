@@ -351,7 +351,7 @@
                     android:textStyle="normal"
                     android:fontFamily="@font/ge_dinar_one_light"
                     android:textAllCaps="false"
-                    android:background="@drawable/add_to_cart_btn_bg"
+                    android:background="@drawable/bg_1"
                     android:drawableRight="@drawable/icon_cart_small"
                     android:drawablePadding="0dp"
                     android:paddingLeft="15dp"
@@ -364,7 +364,7 @@
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/add_to_wishlist_btn_bg">
+                    android:background="@drawable/bg_2">
 
                     <ImageView
                         android:id="@+id/wishlistImg"

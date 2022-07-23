@@ -39,6 +39,7 @@
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_home_new_ar.xml" value="0.19010416666666666" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_home_visit_service.xml" value="0.17255434782608695" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_home_visit_service_terms.xml" value="0.36666666666666664" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_my_account.xml" value="0.17135416666666667" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_my_account_ar.xml" value="0.17147922998986828" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_product_description.xml" value="0.17255434782608695" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/fragment_product_description_ar.xml" value="0.16666666666666666" />
@@ -56,6 +57,8 @@
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_cart_new.xml" value="0.24479166666666666" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_categories_item.xml" value="0.17603850050658562" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_item.xml" value="0.18072916666666666" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_order_list_item.xml" value="0.17255434782608695" />
+        <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_order_list_item_ar.xml" value="0.17255434782608695" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/layout_select_size.xml" value="0.17255434782608695" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/main_activity_ar_new.xml" value="0.17255434782608695" />
         <entry key="..\:/Vinod/Work/Projects/Dagla/app/src/main/res/layout/main_activity_new.xml" value="0.17831813576494426" />
