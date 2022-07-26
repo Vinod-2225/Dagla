@@ -62,11 +62,16 @@
             android:gravity="right"/>
 
         <Button
-            style="@style/btnDefaultAr"
             android:id="@+id/btnRegister"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/register_ar"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/ge_dinar_one_medium"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_1"
             android:layout_marginTop="25dp" />
 
         <Button

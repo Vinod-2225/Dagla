@@ -397,7 +397,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/terms_n_conditions"
                 android:textAlignment="textStart"
-                android:drawableRight="@drawable/arrow"
+                android:drawableEnd="@drawable/arrow"
                 android:drawablePadding="10dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
@@ -417,7 +417,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/faqs"
                 android:textAlignment="textStart"
-                android:drawableRight="@drawable/arrow"
+                android:drawableEnd="@drawable/arrow"
                 android:drawablePadding="10dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
@@ -494,10 +494,15 @@
 
             <Button
                 android:id="@+id/btnContactEmailUs"
-                style="@style/btnContactEmailUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/email_us"
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/avenir_next_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_2"
                 android:textAlignment="center"
                 android:drawablePadding="10dp"
                 android:layout_marginTop="15dp"
@@ -507,10 +512,15 @@
 
             <Button
                 android:id="@+id/btnCallUs"
-                style="@style/btnContactEmailUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/call_us"
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/avenir_next_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_2"
                 android:textAlignment="center"
                 android:drawablePadding="10dp"
                 android:layout_marginTop="15dp"
@@ -520,10 +530,15 @@
 
             <Button
                 android:id="@+id/btnLogout"
-                style="@style/btnContactEmailUs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/logout"
+                android:textColor="#222222"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/avenir_next_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_2"
                 android:textAlignment="center"
                 android:drawablePadding="10dp"
                 android:layout_marginTop="15dp"

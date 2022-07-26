@@ -65,11 +65,16 @@
         android:gravity="center_vertical">
 
         <Button
-            style="@style/btnDefaultAr"
             android:id="@+id/btnPlus"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="+"/>
+            android:text="+"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/ge_dinar_one_medium"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_3"/>
 
         <TextView
             android:id="@+id/lblQty"
@@ -79,7 +84,7 @@
             android:layout_marginEnd="5dp"
             android:background="@drawable/bg_border"
             android:textStyle="normal"
-            android:fontFamily="@font/avenir_next_medium"
+            android:fontFamily="@font/ge_dinar_one_medium"
             android:textSize="14sp"
             android:textColor="#4A4A4A"
             android:textAlignment="center"
@@ -87,11 +92,16 @@
             android:text="1"/>
 
         <Button
-            style="@style/btnDefaultAr"
             android:id="@+id/btnMinus"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="-"/>
+            android:text="-"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/ge_dinar_one_medium"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_3"/>
 
     </LinearLayout>
 

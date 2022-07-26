@@ -139,12 +139,20 @@
 
                         <Button
                             android:id="@+id/btnApply"
-                            style="@style/btnSignIn"
-                            android:layout_alignParentLeft="true"
                             android:layout_width="100dp"
                             android:layout_height="35dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_marginStart="0dp"
+                            android:layout_marginTop="0dp"
+                            android:layout_marginEnd="0dp"
+                            android:layout_marginBottom="0dp"
                             android:text="@string/apply_ar"
-                            android:layout_margin="0dp"/>
+                            android:textColor="#FFFFFF"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:fontFamily="@font/ge_dinar_one_medium"
+                            android:textAllCaps="false"
+                            android:background="@drawable/bg_1"/>
                         
                         <EditText
                             android:id="@+id/txtCoupon"
@@ -153,10 +161,12 @@
                             android:layout_toRightOf="@+id/btnApply"
                             android:layout_alignParentRight="true"
                             android:hint="@string/enter_coupon_code_here_ar"
-                            android:textStyle="normal"
+                            android:textColor="#FFFFFF"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
                             android:fontFamily="@font/ge_dinar_one_medium"
-                            android:textSize="14sp"
-                            android:background="@drawable/promo_code_bg"
+                            android:textAllCaps="false"
+                            android:background="@drawable/bg_2"
                             android:padding="5dp"
                             android:gravity="right"/>
 
@@ -545,10 +555,15 @@
 
             <Button
                 android:id="@+id/btnSecurePayment"
-                style="@style/btnSignIn"
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
                 android:text="@string/secure_payment_ar"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/ge_dinar_one_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_1"
                 android:layout_margin="7dp"/>
 
         </LinearLayout>

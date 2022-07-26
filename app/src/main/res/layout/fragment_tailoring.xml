@@ -24,21 +24,31 @@
 
 
             <Button
-                style="@style/btnDefault"
                 android:id="@+id/btnHomeVisit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/book_a_home_visit"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/avenir_next_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_1"
                 android:layout_marginTop="15dp"
                 android:visibility="visible"/>
 
 
             <Button
-                style="@style/btnDefault"
                 android:id="@+id/btnOrderTracking"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/track_your_dishdasha"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/avenir_next_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_1"
                 android:layout_marginTop="25dp"
                 android:visibility="visible"/>
 

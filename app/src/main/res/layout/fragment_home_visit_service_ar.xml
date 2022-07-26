@@ -237,11 +237,16 @@
 
             <Button
                 android:id="@+id/btnNext"
-                style="@style/btnSignInAr"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/slotBookingLayout"
                 android:text="@string/next_ar"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/ge_dinar_one_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_1"
                 android:layout_margin="10dp"/>
 
             <View

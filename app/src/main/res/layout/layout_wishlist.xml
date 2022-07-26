@@ -63,7 +63,7 @@
             android:textStyle="bold"
             android:textAllCaps="false"
             android:fontFamily="@font/avenir_next_medium"
-            android:background="@drawable/btn_skip_intro"/>
+            android:background="@drawable/bg_1"/>
 
     </LinearLayout>
 

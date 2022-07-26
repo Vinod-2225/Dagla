@@ -56,13 +56,18 @@
         </LinearLayout>
 
         <Button
-            style="@style/btnDefaultAr"
             android:id="@+id/btnAddAddress"
-            android:layout_width="wrap_content"
+            android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
-            android:text="@string/add_new_address_ar"/>
+            android:text="@string/add_new_address_ar"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/ge_dinar_one_medium"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_1"/>
 
 
 

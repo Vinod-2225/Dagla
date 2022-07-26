@@ -146,11 +146,16 @@
                 android:gravity="right"/>
 
             <Button
-                style="@style/btnDefaultAr"
                 android:id="@+id/btnAdd"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_ar"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/ge_dinar_one_medium"
+                android:textAllCaps="false"
+                android:background="@drawable/bg_1"
                 android:layout_marginTop="15dp" />
 
         </LinearLayout>

@@ -62,6 +62,13 @@ public class HomeVisitServiceFragment extends Fragment {
 //        }else {
 //            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.home_visit_service),true,true,true,true, false ,"0");
 //        }
+
+        if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.home_visit_service_ar),true,false,false,true, false ,"0", false);
+        }else {
+            ((MainActivity) getActivity()).setHeaders(getResources().getString(R.string.home_visit_service),true,false,false,true, false ,"0", false);
+        }
+
         GlobalFunctions.setLanguage(getActivity());
         GlobalFunctions.initImageLoader(context);
 

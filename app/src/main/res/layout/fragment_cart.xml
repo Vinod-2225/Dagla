@@ -80,12 +80,17 @@
         android:padding="10dp">
 
         <Button
-            style="@style/btnDefault"
             android:id="@+id/btnCheckout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="@string/checkout"/>
+            android:text="@string/checkout"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:fontFamily="@font/avenir_next_medium"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_1"/>
 
     </RelativeLayout>
 

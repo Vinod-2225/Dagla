@@ -61,11 +61,16 @@
         android:gravity="center_vertical">
 
         <Button
-            style="@style/btnDefault"
             android:id="@+id/btnMinus"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="-"/>
+            android:text="-"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/avenir_next_medium"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_3"/>
 
         <TextView
             android:id="@+id/lblQty"
@@ -83,11 +88,16 @@
             android:text="1"/>
 
         <Button
-            style="@style/btnDefault"
             android:id="@+id/btnPlus"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:text="+"/>
+            android:text="+"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:fontFamily="@font/avenir_next_medium"
+            android:textAllCaps="false"
+            android:background="@drawable/bg_3"/>
 
     </LinearLayout>
 

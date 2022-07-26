@@ -175,14 +175,19 @@
                 </RelativeLayout>
 
                 <Button
-                    style="@style/btnDefault"
                     android:id="@+id/btnAddToCart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/add_to_cart"/>
+                    android:text="@string/add_to_cart"
+                    android:textColor="#FFFFFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:fontFamily="@font/avenir_next_medium"
+                    android:textAllCaps="false"
+                    android:background="@drawable/bg_1"/>
 
             </LinearLayout>
 

@@ -66,8 +66,8 @@
             android:textSize="12sp"
             android:textColor="#FFFFFF"
             android:textStyle="bold"
-            android:fontFamily="@font/ge_dinar_one_light"
-            android:background="@drawable/btn_skip_intro"
+            android:fontFamily="@font/ge_dinar_one_medium"
+            android:background="@drawable/bg_1"
             android:layout_gravity="right"/>
 
     </LinearLayout>
