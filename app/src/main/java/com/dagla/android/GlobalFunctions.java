@@ -626,4 +626,24 @@ public class GlobalFunctions {
 //        dialog.show();
 //
 //    }
+
+
+    public static int get_device_height(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay()
+                .getMetrics(metrics);
+        int height = metrics.heightPixels;
+
+        return height;
+    }
+
+    public static int get_device_width(Context context) {
+        DisplayMetrics metrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay()
+                .getMetrics(metrics);
+        int width = metrics.widthPixels;
+
+        return width;
+    }
+
 }

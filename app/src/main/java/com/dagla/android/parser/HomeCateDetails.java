@@ -1,125 +1,39 @@
 package com.dagla.android.parser;
 
-import java.util.ArrayList;
 
 public class HomeCateDetails {
 
-    private String banner_id;
-    private String home_banner_cat_id;
-    private String home_banner_cat_name;
-    private String banner_cat_id;
-    private String banner_sub_cat_id;
-    private String banner_product_id;
-    private String banner_brand_id;
+    private String cate_id;
+    private String cate_name;
+
     private String image;
+    
+    public HomeCateDetails(String cate_id, String cate_name) {
 
-    ArrayList<HomeCateProductsDetails> homeCateProductsDetailsArrayList;
+        this.cate_id = cate_id;
+        this.cate_name = cate_name;
 
-    public HomeCateDetails(String banner_id, String home_banner_cat_id, String home_banner_cat_name, String banner_cat_id,
-                           String banner_sub_cat_id,String banner_product_id,String banner_brand_id,
-                           String image, ArrayList<HomeCateProductsDetails> homeCateProductsDetailsArrayList) {
 
-        this.banner_id = banner_id;
-        this.home_banner_cat_id = home_banner_cat_id;
-        this.home_banner_cat_name = home_banner_cat_name;
-        this.banner_cat_id = banner_cat_id;
-        this.banner_sub_cat_id = banner_sub_cat_id;
-        this.banner_product_id = banner_product_id;
-        this.banner_brand_id = banner_brand_id;
-        this.image = image;
-
-        this.homeCateProductsDetailsArrayList = homeCateProductsDetailsArrayList;
-
-    }
-
-    public HomeCateDetails(String design_id, String product_id, String color_id, String color_code, String color_name, String image) {
-
-        this.banner_id = banner_id;
-        this.home_banner_cat_id = home_banner_cat_id;
-        this.home_banner_cat_name = home_banner_cat_name;
-        this.banner_cat_id = banner_cat_id;
-        this.banner_sub_cat_id = banner_sub_cat_id;
-        this.image = image;
 
     }
 
 
 
-
-
-    public String getBannerId() {
-        return banner_id;
+    public String getCateId() {
+        return cate_id;
     }
 
-    public void setBannerId(String banner_id) {
-        this.banner_id = banner_id;
+    public void setCateId(String cate_id) {
+        this.cate_id = cate_id;
     }
 
-    public String getHomeBannerCatId() {
-        return home_banner_cat_id;
+    public String getCateName() {
+        return cate_name;
     }
 
-    public void setHomeBannerCatId(String home_banner_cat_id) {
-        this.home_banner_cat_id = home_banner_cat_id;
+    public void setCateName(String cate_name) {
+        this.cate_name = cate_name;
     }
-
-
-    public String getHomeBannerCatName() {
-        return home_banner_cat_name;
-    }
-
-    public void setHomeBannerCatName(String home_banner_cat_name) {
-        this.home_banner_cat_name = home_banner_cat_name;
-    }
-
-    public String getBannerCatId() {
-        return banner_cat_id;
-    }
-
-    public void setBannerCatId(String banner_cat_id) {
-        this.banner_cat_id = banner_cat_id;
-    }
-
-    public String getBannerSubCatId() {
-        return banner_sub_cat_id;
-    }
-
-    public void setBannerSubCatId(String banner_sub_cat_id) {
-        this.banner_sub_cat_id = banner_sub_cat_id;
-    }
-
-    public String getBannerProductId() {
-        return banner_product_id;
-    }
-
-    public void setBannerProductId(String banner_product_id) {
-        this.banner_product_id = banner_product_id;
-    }
-
-    public String getBannerBrandId() {
-        return banner_brand_id;
-    }
-
-    public void setBannerBrandId(String banner_brand_id) {
-        this.banner_brand_id = banner_brand_id;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-
-    public ArrayList<HomeCateProductsDetails> getHomeCateProducts() {
-        return homeCateProductsDetailsArrayList;
-    }
-
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
 
 
 }

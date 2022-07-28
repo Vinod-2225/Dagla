@@ -4,8 +4,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
@@ -18,10 +16,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -40,15 +35,10 @@ import com.bumptech.glide.request.target.Target;
 import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
 import com.dagla.android.activity.MainActivity;
-import com.dagla.android.adapter.BestSellerAdapter;
-import com.dagla.android.adapter.EditorialChoiceAdapter;
 import com.dagla.android.adapter.HomeCateAdapter;
-import com.dagla.android.adapter.HomeCateProductsAdapter;
 import com.dagla.android.adapter.ItemsAdapter;
-import com.dagla.android.adapter.ProductColorsAdapter;
-import com.dagla.android.adapter.WhatsNewAdapter;
+import com.dagla.android.parser.HomeBannerDetails;
 import com.dagla.android.parser.HomeCateDetails;
-import com.dagla.android.parser.HomeCateProductsDetails;
 import com.google.android.material.tabs.TabLayout;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -60,8 +50,6 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -78,14 +66,13 @@ public class HomeFragmentNew extends Fragment {
 
     Dialog dlgLoading = null;
 
+    HomeBannerDetails homeBannerDetails;
+    ArrayList<HomeBannerDetails> homeBannerDetailsArrayList = new ArrayList<HomeBannerDetails>();
     HomeCateDetails homeCateDetails;
     ArrayList<HomeCateDetails> homeCateDetailsArrayList = new ArrayList<HomeCateDetails>();
-    HomeCateProductsDetails homeCateProductsDetails;
-    ArrayList<HomeCateProductsDetails> homeCateProductsDetailsArrayList = new ArrayList<HomeCateProductsDetails>();
 
     RecyclerView cate_recyclerView,products_recyclerView;
     HomeCateAdapter homeCateAdapter;
-    HomeCateProductsAdapter homeCateProductsAdapter;
 
     ArrayList<String> arrItems;
 
@@ -146,7 +133,12 @@ public class HomeFragmentNew extends Fragment {
 
             cate_recyclerView = rootView.findViewById(R.id.cate_recyclerView);
 
-            cate_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+            if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+                cate_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, true));
+            }else {
+                cate_recyclerView.setLayoutManager(new LinearLayoutManager(requireActivity(), LinearLayoutManager.HORIZONTAL, false));
+            }
+
             homeCateAdapter = new HomeCateAdapter(requireActivity(), homeCateDetailsArrayList);
             cate_recyclerView.setAdapter(homeCateAdapter);
 
@@ -154,10 +146,9 @@ public class HomeFragmentNew extends Fragment {
                 @Override
                 public void OnItemClick(int position, View v) {
 
-                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(position).getHomeCateProducts(),displaymetrics.widthPixels);
-                    products_recyclerView.setAdapter(homeCateProductsAdapter);
                     homeCateAdapter.Selected(position);
-
+                    categoryId = homeCateDetailsArrayList.get(position).getCateId();
+                    loadProductsData();
                 }
             });
 
@@ -281,8 +272,8 @@ public class HomeFragmentNew extends Fragment {
 
         if (GlobalFunctions.hasConnection(getActivity())) {
 
-            homeCateDetailsArrayList.clear();
-            homeCateProductsDetailsArrayList.clear();
+            homeBannerDetailsArrayList.clear();
+//            homeCateDetailsArrayList.clear();
 
             showLoading();
 
@@ -298,7 +289,6 @@ public class HomeFragmentNew extends Fragment {
 
 
             client.get(GlobalFunctions.serviceURL + "getHomeBannerData", params, new AsyncHttpResponseHandler() {
-
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
 
@@ -335,61 +325,161 @@ public class HomeFragmentNew extends Fragment {
                                 String banner_brand_id = arr.getJSONObject(i).getString("banner_brand_id");
                                 String image = arr.getJSONObject(i).getString("image");
 
+                                homeBannerDetails = new HomeBannerDetails(main_banner_Id,home_banner_cat_id,home_banner_cat_name_en,banner_cat_id,
+                                        banner_sub_cat_id,banner_product_id,banner_brand_id,image);
+                                homeBannerDetailsArrayList.add(homeBannerDetails);
 
 
-                                arr1 = arr.getJSONObject(i).getJSONArray("Products");
-
-                                homeCateProductsDetailsArrayList = new ArrayList<HomeCateProductsDetails>();
-
-                                for (int j = 0; j < arr1.length(); j++) {
-
-                                    String banner_id = arr1.getJSONObject(j).getString("banner_id");
-                                    String product_id = arr1.getJSONObject(j).getString("product_id");
-                                    String name = arr1.getJSONObject(j).getString("name");
-                                    String brand_name = arr1.getJSONObject(j).getString("brand_name");
-                                    String price = arr1.getJSONObject(j).getString("price");
-                                    String old_price = arr1.getJSONObject(j).getString("old_price");
-
-                                    String pic = arr1.getJSONObject(j).getString("pic");
-
-
-                                    homeCateProductsDetails = new HomeCateProductsDetails(banner_id, product_id, name, brand_name, price, old_price, pic);
-
-                                    homeCateProductsDetailsArrayList.add(homeCateProductsDetails);
-
-                                }
-
-
-
-                                homeCateDetails = new HomeCateDetails(main_banner_Id,home_banner_cat_id,home_banner_cat_name_en,banner_cat_id,
-                                        banner_sub_cat_id,banner_product_id,banner_brand_id,image,homeCateProductsDetailsArrayList);
-                                homeCateDetailsArrayList.add(homeCateDetails);
-
-//                                if(i==0){
+//                                arr1 = arr.getJSONObject(i).getJSONArray("Products");
 //
-//                                    homeCateProductsAdapter = new HomeCateProductsAdapter(requireActivity(), homeCateDetailsArrayList.get(i).getHomeCateProducts(),displaymetrics.widthPixels);
-//                                    products_recyclerView.setAdapter(homeCateProductsAdapter);
+//                                homeCateProductsDetailsArrayList = new ArrayList<HomeCateProductsDetails>();
 //
-//                                    homeCateProductsAdapter.setOnClickListener(new HomeCateProductsAdapter.ClickListener() {
-//                                        @Override
-//                                        public void OnItemClick(int position, View v) {
+//                                for (int j = 0; j < arr1.length(); j++) {
 //
-//                                            homeCateProductsAdapter.Selected(position);
+//                                    String banner_id = arr1.getJSONObject(j).getString("banner_id");
+//                                    String product_id = arr1.getJSONObject(j).getString("product_id");
+//                                    String name = arr1.getJSONObject(j).getString("name");
+//                                    String brand_name = arr1.getJSONObject(j).getString("brand_name");
+//                                    String price = arr1.getJSONObject(j).getString("price");
+//                                    String old_price = arr1.getJSONObject(j).getString("old_price");
 //
-//                                        }
-//                                    });
+//                                    String pic = arr1.getJSONObject(j).getString("pic");
+//
+//
+//                                    homeCateProductsDetails = new HomeCateProductsDetails(banner_id, product_id, name, brand_name, price, old_price, pic);
+//
+//                                    homeCateProductsDetailsArrayList.add(homeCateProductsDetails);
+//
 //                                }
+//
+//
+//
+//                                homeBannerDetails = new HomeBannerDetails(main_banner_Id,home_banner_cat_id,home_banner_cat_name_en,banner_cat_id,
+//                                        banner_sub_cat_id,banner_product_id,banner_brand_id,image,homeCateProductsDetailsArrayList);
+//                                homeBannerDetailsArrayList.add(homeBannerDetails);
+
                             }
 
 
-                            CustomImagePagerAdapter mAdapter = new CustomImagePagerAdapter(getActivity(), homeCateDetailsArrayList);
+                            CustomImagePagerAdapter mAdapter = new CustomImagePagerAdapter(getActivity(), homeBannerDetailsArrayList);
                             vPagerImages.setAdapter(mAdapter);
                             vPagerImages.setCurrentItem(0);
                             tabDots.setupWithViewPager(vPagerImages, true);
 
-                            homeCateAdapter.notifyDataSetChanged();
+//                            homeCateAdapter.notifyDataSetChanged();
 
 //                            homeCateProductsAdapter.notifyDataSetChanged();
+
+//                            loadProductsData();
+
+                            loadCategoriesData();
+
+                        } else {
+
+                            GlobalFunctions.showToastError(getActivity(), obj.getString("msg"));
+
+                        }
+
+                    } catch (JSONException e) {
+
+                        if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                        }else {
+                            GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                        }
+
+                    }
+
+                }
+
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] bytes, Throwable throwable) {
+
+                    hideLoading();
+
+                    if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error_ar));
+                    }else {
+                        GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_error));
+                    }
+
+                }
+            });
+
+        } else {
+
+            if (GlobalFunctions.getLang(getActivity()).equals("ar")) {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet_ar));
+            }else {
+                GlobalFunctions.showToastError(getActivity(), getString(R.string.msg_no_internet));
+            }
+
+
+        }
+
+    }
+
+    private void loadCategoriesData() {
+
+        if (GlobalFunctions.hasConnection(getActivity())) {
+
+//            homeBannerDetailsArrayList.clear();
+            homeCateDetailsArrayList.clear();
+
+            showLoading();
+
+            AsyncHttpClient client = new AsyncHttpClient();
+
+            RequestParams params = new RequestParams();
+
+            params.put("ran", GlobalFunctions.getRandom());
+
+            if(!GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency").equals("")){
+                params.put("curr", GlobalFunctions.getPrefrences(getActivity(), "CountryCurrency"));
+            }
+
+
+//            client.get(GlobalFunctions.serviceURL + "getHomeBannerData", params, new AsyncHttpResponseHandler() {
+                            client.get(GlobalFunctions.serviceURL + "getHomeData", params, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] bytes) {
+
+                    hideLoading();
+
+                    String response = new String(bytes);
+
+                    Log.d("onSuccess", response);
+
+                    JSONArray arr, arr1, arr2;
+                    JSONObject obj, obj1, obj2;
+
+
+
+                    try {
+
+                        obj = ((JSONObject) new JSONTokener(response).nextValue()).getJSONObject("result");
+
+                        if (obj.getString("status").equalsIgnoreCase("1")) {
+
+                            arr = obj.getJSONArray("home_cats");
+
+
+                            for (int i = 0; i < arr.length(); i++) {
+
+
+                                String cat_id = arr.getJSONObject(i).getString("cat_id");
+                                String cat = arr.getJSONObject(i).getString("cat");
+
+                                homeCateDetails = new HomeCateDetails(cat_id,cat);
+                                homeCateDetailsArrayList.add(homeCateDetails);
+
+                                if(i==0){
+                                    categoryId = homeCateDetailsArrayList.get(i).getCateId();
+                                }
+                            }
+
+                            homeCateAdapter.notifyDataSetChanged();
+
 
                             loadProductsData();
 
@@ -610,12 +700,12 @@ public class HomeFragmentNew extends Fragment {
     public class CustomImagePagerAdapter extends PagerAdapter {
         private Context mContext;
         LayoutInflater mLayoutInflater;
-        ArrayList<HomeCateDetails> homeCateDetailsArrayList1;
+        ArrayList<HomeBannerDetails> homeBannerDetailsArrayList1;
 
-        public CustomImagePagerAdapter(Context context, ArrayList<HomeCateDetails> homeCateDetailsArrayList1) {
+        public CustomImagePagerAdapter(Context context, ArrayList<HomeBannerDetails> homeBannerDetailsArrayList1) {
             mContext = context;
             mLayoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            this.homeCateDetailsArrayList1 = homeCateDetailsArrayList1;
+            this.homeBannerDetailsArrayList1 = homeBannerDetailsArrayList1;
         }
 
         @Override
@@ -635,7 +725,7 @@ public class HomeFragmentNew extends Fragment {
 
 
             Glide.with(mContext)
-                    .load(homeCateDetailsArrayList1.get(position).getImage())
+                    .load(homeBannerDetailsArrayList1.get(position).getImage())
                     .listener(new RequestListener<Drawable>() {
                         @Override
                         public boolean onLoadFailed(GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
@@ -660,18 +750,18 @@ public class HomeFragmentNew extends Fragment {
 
             adImg.setOnClickListener(v -> {
 
-                if(!homeCateDetailsArrayList1.get(position).getBannerCatId().equals("vpM1hJ6qjWc=")||
-                        !homeCateDetailsArrayList1.get(position).getBannerSubCatId().equals("vpM1hJ6qjWc=")||
-                        !homeCateDetailsArrayList1.get(position).getBannerProductId().equals("vpM1hJ6qjWc=")||
-                        !homeCateDetailsArrayList1.get(position).getBannerBrandId().equals("vpM1hJ6qjWc=")
+                if(!homeBannerDetailsArrayList1.get(position).getBannerCatId().equals("vpM1hJ6qjWc=")||
+                        !homeBannerDetailsArrayList1.get(position).getBannerSubCatId().equals("vpM1hJ6qjWc=")||
+                        !homeBannerDetailsArrayList1.get(position).getBannerProductId().equals("vpM1hJ6qjWc=")||
+                        !homeBannerDetailsArrayList1.get(position).getBannerBrandId().equals("vpM1hJ6qjWc=")
 
                 ){
-                    if( homeCateDetailsArrayList1.get(position).getBannerProductId()!=null&& !homeCateDetailsArrayList1.get(position).getBannerProductId().equals("vpM1hJ6qjWc=")){
+                    if( homeBannerDetailsArrayList1.get(position).getBannerProductId()!=null&& !homeBannerDetailsArrayList1.get(position).getBannerProductId().equals("vpM1hJ6qjWc=")){
                         ProductDescriptionFromHomeFragment fragment = new ProductDescriptionFromHomeFragment();
                         Bundle b = new Bundle();
-                        b.putString("product_id", homeCateDetailsArrayList1.get(position).getBannerProductId());
-                        b.putString("title", homeCateDetailsArrayList1.get(position).getHomeBannerCatName());
-                        b.putString("home_banner_name", homeCateDetailsArrayList1.get(position).getHomeBannerCatName());
+                        b.putString("product_id", homeBannerDetailsArrayList1.get(position).getBannerProductId());
+                        b.putString("title", homeBannerDetailsArrayList1.get(position).getHomeBannerCatName());
+                        b.putString("home_banner_name", homeBannerDetailsArrayList1.get(position).getHomeBannerCatName());
                         fragment.setArguments(b);
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
@@ -683,10 +773,10 @@ public class HomeFragmentNew extends Fragment {
                     }else {
                         ProductsFromHomeBannerFragment fragment = new ProductsFromHomeBannerFragment();
                         Bundle b = new Bundle();
-                        b.putString("cat_id", homeCateDetailsArrayList1.get(position).getBannerCatId());
-                        b.putString("sub_cat_id", homeCateDetailsArrayList1.get(position).getBannerSubCatId());
-                        b.putString("brand_id", homeCateDetailsArrayList1.get(position).getBannerBrandId());
-                        b.putString("home_banner_name", homeCateDetailsArrayList1.get(position).getHomeBannerCatName());
+                        b.putString("cat_id", homeBannerDetailsArrayList1.get(position).getBannerCatId());
+                        b.putString("sub_cat_id", homeBannerDetailsArrayList1.get(position).getBannerSubCatId());
+                        b.putString("brand_id", homeBannerDetailsArrayList1.get(position).getBannerBrandId());
+                        b.putString("home_banner_name", homeBannerDetailsArrayList1.get(position).getHomeBannerCatName());
                         fragment.setArguments(b);
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction()
@@ -721,7 +811,7 @@ public class HomeFragmentNew extends Fragment {
         @Override
         public int getCount() {
 //        Log.v("mResources.length",""+mResources.length);
-            return homeCateDetailsArrayList1.size();
+            return homeBannerDetailsArrayList1.size();
         }
 
         @Override

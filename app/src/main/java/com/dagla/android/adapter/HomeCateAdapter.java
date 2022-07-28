@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.dagla.android.GlobalFunctions;
 import com.dagla.android.R;
+import com.dagla.android.parser.HomeBannerDetails;
 import com.dagla.android.parser.HomeCateDetails;
 
 import java.util.ArrayList;
@@ -39,14 +42,16 @@ public class HomeCateAdapter extends RecyclerView.Adapter<HomeCateAdapter.ViewHo
 // you provide access to all the views for a data item in a view holder
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        public TextView lblSize;
-        public RelativeLayout sizeLayout;
+        public TextView lblCateName;
+        public RelativeLayout cateLayout;
+        public CardView cardview;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            lblSize = (TextView) itemView.findViewById(R.id.lblSize);
-            sizeLayout = (RelativeLayout) itemView.findViewById(R.id.sizeLayout);
+            lblCateName = (TextView) itemView.findViewById(R.id.lblCateName);
+            cateLayout = (RelativeLayout) itemView.findViewById(R.id.cateLayout);
+            cardview = (CardView) itemView.findViewById(R.id.cardview);
 
             itemView.setOnClickListener(this);
 
@@ -80,7 +85,13 @@ public class HomeCateAdapter extends RecyclerView.Adapter<HomeCateAdapter.ViewHo
         View v;
 
 //        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_1_item_layout, parent, false);
-        v = LayoutInflater.from(parent.getContext()).inflate(R.layout.size_item_layout, parent, false);
+
+
+        if(GlobalFunctions.getLang(mContext).equals("ar")){
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_cate_item_layout_ar, parent, false);
+        }else {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_cate_item_layout, parent, false);
+        }
 
         // set the view's size, margins, paddings and layout parameters
 
@@ -96,14 +107,17 @@ public class HomeCateAdapter extends RecyclerView.Adapter<HomeCateAdapter.ViewHo
         // - get element from your dataset at this position
         // - replace the contents of the view with that element holder1.imgLike.setTag(position);
 
-        holder1.lblSize.setText(mList.get(position).getHomeBannerCatName());
+        holder1.cardview.getLayoutParams().width = (int) (GlobalFunctions.get_device_width(mContext) / 3) - 50;
+//        holder1.cateLayout.getLayoutParams().height = (int) (GlobalFunctions.get_device_width(mContext) / 2) - 50;
+
+        holder1.lblCateName.setText(mList.get(position).getCateName());
 
         if(row_index==position){
-            holder1.sizeLayout.setBackgroundResource(R.drawable.bg_1);
-            holder1.lblSize.setTextColor(Color.parseColor("#FFFFFF"));
+            holder1.cardview.setBackgroundResource(R.drawable.bg_1);
+            holder1.lblCateName.setTextColor(Color.parseColor("#FFFFFF"));
         }else {
-            holder1.sizeLayout.setBackgroundResource(R.drawable.bg_2);
-            holder1.lblSize.setTextColor(Color.parseColor("#222222"));
+            holder1.cardview.setBackgroundResource(R.drawable.bg_2);
+            holder1.lblCateName.setTextColor(Color.parseColor("#222222"));
         }
 
 
