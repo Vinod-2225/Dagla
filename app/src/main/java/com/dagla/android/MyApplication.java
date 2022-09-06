@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 //import ly.count.android.sdk.Countly;
 //import ly.count.android.sdk.messaging.CountlyPush;
@@ -24,6 +25,8 @@ public class MyApplication extends Application {
 
     final String serverUrl = "https://dagla.count.ly";
     final String appKey = "43744905b9d494a663d22beafbdaee47bcfb05f5";
+
+    public static final String TAG = MyApplication.class.getSimpleName();
 
     @Override
     public void onCreate() {
@@ -56,25 +59,51 @@ public class MyApplication extends Application {
 ////        CountlyPush.init(this, Countly.CountlyMessagingMode.TEST);
 //        CountlyPush.init(this, Countly.CountlyMessagingMode.PRODUCTION);
 
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//        FirebaseInstanceId.getInstance().getInstanceId()
+//                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+//                        if (!task.isSuccessful()) {
+//                            Log.w("TAG", "getInstanceId failed", task.getException());
+//                            return;
+//                        }
+//
+//                        // Get new Instance ID token
+//                        String token = task.getResult().getToken();
+//
+//
+//                        SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
+//                        SharedPreferences.Editor editor = sharedPreferences.edit();
+//                        editor.putString("DeviceTokenId",token);
+//                        editor.commit();
+//                        GlobalFunctions.setPrefrences(getApplicationContext(), "token", token);
+////                        CountlyPush.onTokenRefresh(token);
+//                    }
+//                });
+
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
                     @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                    public void onComplete(@NonNull Task<String> task) {
                         if (!task.isSuccessful()) {
-                            Log.w("TAG", "getInstanceId failed", task.getException());
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
                             return;
                         }
 
-                        // Get new Instance ID token
-                        String token = task.getResult().getToken();
+                        // Get new FCM registration token
+                        String token = task.getResult();
 
+//                        // Log and toast
+//                        String msg = token;
+                        Log.d(TAG, token);
+//                        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
 
                         SharedPreferences sharedPreferences = getSharedPreferences("MyPrefsFile", Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("DeviceTokenId",token);
-                        editor.commit();
+                        editor.apply();
                         GlobalFunctions.setPrefrences(getApplicationContext(), "token", token);
-//                        CountlyPush.onTokenRefresh(token);
                     }
                 });
 
