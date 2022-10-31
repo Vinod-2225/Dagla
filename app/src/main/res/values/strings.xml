@@ -580,4 +580,8 @@
     <string name="women_ar" translatable="false">النساء</string>
     <string name="junior_ar" translatable="false">مبتدئ</string>
     <string name="in_stock_ar" translatable="false">متوفر</string>
+
+
+    <string name="about_us" translatable="false">About Us</string>
+    <string name="about_us_ar" translatable="false">معلومات عنا</string>
 </resources>

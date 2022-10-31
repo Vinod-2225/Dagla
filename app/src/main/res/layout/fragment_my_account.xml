@@ -301,6 +301,27 @@
                 android:drawableRight="@drawable/arrow"
                 android:drawablePadding="10dp"
                 android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#808080"
+                android:layout_marginTop="0dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
+
+            <Button
+                android:id="@+id/btnAboutUs"
+                style="@style/btnLink2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_us"
+                android:textAlignment="textStart"
+                android:drawableRight="@drawable/arrow"
+                android:drawablePadding="10dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"/>
             <View
                 android:layout_width="match_parent"
@@ -320,14 +341,16 @@
                 android:drawableRight="@drawable/arrow"
                 android:drawablePadding="10dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#808080"
                 android:layout_marginTop="0dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btnPaymentSecurity"
@@ -360,14 +383,16 @@
                 android:drawableRight="@drawable/arrow"
                 android:drawablePadding="10dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#808080"
                 android:layout_marginTop="0dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btnCookiePolicy"
@@ -408,7 +433,8 @@
                 android:background="#808080"
                 android:layout_marginTop="0dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/btnFaqs"
@@ -420,7 +446,8 @@
                 android:drawableEnd="@drawable/arrow"
                 android:drawablePadding="10dp"
                 android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"/>
+                android:layout_marginEnd="15dp"
+                android:visibility="gone"/>
 
 
 

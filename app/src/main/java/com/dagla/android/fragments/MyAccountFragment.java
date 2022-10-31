@@ -66,7 +66,7 @@ public class MyAccountFragment extends Fragment {
     Bundle savedInstanceState;
 
     Button btnLoginRegister,btnMyAccountDetails,btnReturnsAndExchanges,btnShippingInformation,btnPaymentSecurity,btnPrivacyPolicy,
-            btnCookiePolicy,btnTermsAndConditions,btnFaqs,btnContactEmailUs,btnLogout,btnChangeLanguage,btnCallUs,btnMyLocation;
+            btnCookiePolicy,btnTermsAndConditions,btnFaqs,btnContactEmailUs,btnLogout,btnChangeLanguage,btnCallUs,btnMyLocation,btnAboutUs;
 
     TextView lblAppVersion,lblDesignedBy,lblHelpAndInformation,lblContactUs,lblHelpAdvice,lblAvailable,lblCountryName,lblLanguageName;
 
@@ -123,6 +123,8 @@ public class MyAccountFragment extends Fragment {
             instagramIcon = (ImageView) rootView.findViewById(R.id.instagramIcon);
 
             btnMyLocation = (Button) rootView.findViewById(R.id.btnMyLocation);
+
+            btnAboutUs = (Button) rootView.findViewById(R.id.btnAboutUs);
 
             btnPaymentSecurity.setVisibility(View.GONE);
             btnCookiePolicy.setVisibility(View.GONE);
@@ -558,6 +560,33 @@ public class MyAccountFragment extends Fragment {
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     fragmentManager.beginTransaction()
                             .replace(R.id.fragment_container, fragment, "CountriesFragment")
+                            .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                            .addToBackStack(null)
+                            // .setCustomAnimations(R.anim.right_to_left, R.anim.fadeout_2,0, R.anim.left_to_right)
+                            .commitAllowingStateLoss();
+
+                }
+            });
+
+
+
+            btnAboutUs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Information2Fragment fragment = new Information2Fragment();
+                    Bundle b = new Bundle();
+                    b.putString("page_id", "uT4LCYxkiFY=");
+                    if(GlobalFunctions.getLang(getActivity()).equals("ar")){
+                        b.putString("title", getResources().getString(R.string.about_us_ar));
+                    }else {
+                        b.putString("title", getResources().getString(R.string.about_us));
+                    }
+
+                    fragment.setArguments(b);
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    fragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container, fragment, "Information2Fragment")
                             .setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .addToBackStack(null)
                             // .setCustomAnimations(R.anim.right_to_left, R.anim.fadeout_2,0, R.anim.left_to_right)
